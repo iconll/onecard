@@ -1,0 +1,77 @@
+package com.onecard.system.common.config;
+
+import com.onecard.system.common.config.date.DateConverter;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.format.FormatterRegistry;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+
+/**
+ * 类描述：springMVC的配置
+ */
+@Configuration
+public class WebMvcConfig extends WebMvcConfigurerAdapter {
+
+    /**
+     * 跨域
+     * @param registry
+     */
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/**")
+                //.allowedOrigins("*","http://localhost:8001/")//Vue 项目的服务地址和端口号 可用*号代替
+                .allowedOrigins("*")//Vue 项目的服务地址和端口号 可用*号代替
+                .allowCredentials(true)
+                .allowedMethods("GET", "POST")//, "DELETE", "PUT"
+                .maxAge(3600);
+    }
+
+    //日期转化器配置
+    @Override
+    public void addFormatters(FormatterRegistry registry) {
+        registry.addConverter(new DateConverter());
+    }
+
+    /**
+     * 重写方法描述：实现在url中输入相应的地址的时候直接跳转到某个地址
+     * @param registry
+     */
+    @Override
+    public void addViewControllers(ViewControllerRegistry registry) {
+
+        registry.addViewController("/login").setViewName("login");
+        registry.addViewController("/error").setViewName("error");
+        registry.addViewController("/home").setViewName("home");
+        registry.addViewController("/main").setViewName("main");
+        registry.addViewController("/updatePwd").setViewName("updatePwd");
+        // 跳转到菜单管理页面
+        registry.addViewController("/treeList").setViewName("sys/tree/treeList");
+        // 跳转到角色管理页面
+        registry.addViewController("/userRoleList").setViewName("sys/role/roleList");
+        // 组织架构页面
+        registry.addViewController("/groupList").setViewName("sys/orggroup/groupList");
+        // 管理管理页面
+        registry.addViewController("/userList").setViewName("sys/user/userList");
+        // 数据字典页面
+        registry.addViewController("/dictList").setViewName("sys/dict/dictList");
+        // 跳转到支行管理页面
+        registry.addViewController("/bankInfoList").setViewName("sys/bankInfo/bankInfoList");
+
+        //分期通
+        //跳转到分期通基础数据管理页面
+        registry.addViewController("/fqtBaseInfoList").setViewName("sys/fqtBaseInfo/fqtBaseInfoList");
+        //跳转到分期通额度失效预警页面
+        registry.addViewController("/fqtEdsxyjList").setViewName("sys/fqtBaseInfo/fqtEdsxyjList");
+        //跳转到分期通基础数据统计页面
+        registry.addViewController("/fqtStatisticsList").setViewName("sys/fqtBaseInfo/fqtStatisticsList");
+
+        //家装分期
+        //跳转到家装分期基础数据管理页面
+        registry.addViewController("/jzBaseInfoList").setViewName("sys/jzBaseInfo/jzBaseInfoList");
+        //跳转到家装分期额度有效期预警页面
+        registry.addViewController("/jzEdsxyjList").setViewName("sys/jzBaseInfo/jzEdsxyjList");
+        //跳转到家装分期基础数据统计页面
+        registry.addViewController("/jzStatisticsList").setViewName("sys/jzBaseInfo/jzStatisticsList");
+    }
+}
