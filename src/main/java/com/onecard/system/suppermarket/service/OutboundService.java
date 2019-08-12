@@ -6,8 +6,12 @@ import com.huaying.framework.response.BaseResponse;
 import com.huaying.framework.response.CommonSuccessResponse;
 import com.huaying.framework.utils.DateUtil;
 import com.huaying.framework.utils.StringUtils;
-import com.kmut.retail.entity.*;
-import com.kmut.retail.repo.*;
+import com.onecard.system.suppermarket.entity.Goods;
+import com.onecard.system.suppermarket.entity.Outbound;
+import com.onecard.system.suppermarket.entity.OutboundDetail;
+import com.onecard.system.suppermarket.repo.GoodsRepo;
+import com.onecard.system.suppermarket.repo.OutboundDetailRepo;
+import com.onecard.system.suppermarket.repo.OutboundRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -36,12 +40,6 @@ public class OutboundService extends BaseService {
 
     @Autowired
     GoodsRepo goodsRepo;
-
-    @Autowired
-    MerchantRepo merchantRepo;
-
-    @Autowired
-    ClientRepo clientRepo;
 
     /**
      * 出库
@@ -105,13 +103,12 @@ public class OutboundService extends BaseService {
      * @param endTime
      * @param no
      * @param type
-     * @param merchantId
      * @param clientName
      * @param pageNo
      * @param pageSize
      * @return
      */
-    public BaseResponse list(String startTime, String endTime, String no, Integer type,Integer payment,Integer merchantId, String clientName, Integer pageNo, Integer pageSize){
+    public BaseResponse list(String startTime, String endTime, String no, Integer type,Integer payment, String clientName, Integer pageNo, Integer pageSize){
         Page<Outbound> page = outboundRepo.findAll(new Specification<Outbound>() {
             @Override
             public Predicate toPredicate(Root<Outbound> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
@@ -123,10 +120,6 @@ public class OutboundService extends BaseService {
 
                 if (StringUtils.isNotBlank(endTime)) {
                     list.add(criteriaBuilder.lessThanOrEqualTo(root.get("createTime").as(Date.class), DateUtil.parseDate(endTime, "yyyy-MM-dd HH:mm:ss")));
-                }
-
-                if (merchantId != null) {
-                    list.add(criteriaBuilder.equal(root.get("merchant").get("id").as(Integer.class), merchantId));
                 }
 
                 if (payment != null) {
@@ -152,12 +145,11 @@ public class OutboundService extends BaseService {
         return returnList(page, true);
     }
 
-    public BaseResponse save(Integer id, String no, Integer type, Integer payment, Integer clientId, Integer merchantId) {
+    public BaseResponse save(Integer id, String no, Integer type, Integer payment, Integer clientId) {
         Outbound outbound = new Outbound();
         if(id!=null){
             outbound = outboundRepo.findOne(id);
         }else{
-            outbound.setMerchant(merchantRepo.findOne(merchantId));
             outbound.setNum(0);
             outbound.setSumPrice(0.00);
         }
@@ -165,7 +157,6 @@ public class OutboundService extends BaseService {
         outbound.setOutTime(new Date());
         outbound.setType(type);
         outbound.setPayment(payment);
-        outbound.setClient(clientRepo.findOne(clientId));
         outbound=outboundRepo.save(outbound);
 
         return returnSave(outbound,true);

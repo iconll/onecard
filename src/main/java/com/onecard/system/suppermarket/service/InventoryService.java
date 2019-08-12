@@ -5,11 +5,12 @@ import com.huaying.framework.response.BaseResponse;
 import com.huaying.framework.response.CommonSuccessResponse;
 import com.huaying.framework.utils.DateUtil;
 import com.huaying.framework.utils.StringUtils;
-import com.kmut.retail.entity.*;
-import com.kmut.retail.repo.GoodsRepo;
-import com.kmut.retail.repo.InventoryDetailRepo;
-import com.kmut.retail.repo.InventoryRepo;
-import com.kmut.retail.repo.MerchantRepo;
+import com.onecard.system.suppermarket.entity.Goods;
+import com.onecard.system.suppermarket.entity.Inventory;
+import com.onecard.system.suppermarket.entity.InventoryDetail;
+import com.onecard.system.suppermarket.repo.GoodsRepo;
+import com.onecard.system.suppermarket.repo.InventoryDetailRepo;
+import com.onecard.system.suppermarket.repo.InventoryRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -38,9 +39,6 @@ public class InventoryService extends BaseService {
 
     @Autowired
     GoodsRepo goodsRepo;
-
-    @Autowired
-    MerchantRepo merchantRepo;
 
     /**
      * 盘点
@@ -98,12 +96,11 @@ public class InventoryService extends BaseService {
      * @param endTime
      * @param status
      * @param state
-     * @param merchantId
      * @param pageNo
      * @param pageSize
      * @return
      */
-    public BaseResponse list(String startTime, String endTime, Integer status, Integer state,String no, Integer merchantId, Integer pageNo, Integer pageSize){
+    public BaseResponse list(String startTime, String endTime, Integer status, Integer state,String no, Integer pageNo, Integer pageSize){
         Page<Inventory> page = inventoryRepo.findAll(new Specification<Inventory>() {
             @Override
             public Predicate toPredicate(Root<Inventory> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
@@ -115,10 +112,6 @@ public class InventoryService extends BaseService {
 
                 if (StringUtils.isNotBlank(endTime)) {
                     list.add(criteriaBuilder.lessThanOrEqualTo(root.get("updateTime").as(Date.class), DateUtil.parseDate(endTime, "yyyy-MM-dd HH:mm:ss")));
-                }
-
-                if (merchantId != null) {
-                    list.add(criteriaBuilder.equal(root.get("merchant").get("id").as(Integer.class), merchantId));
                 }
 
                 if (status != null) {
@@ -140,13 +133,12 @@ public class InventoryService extends BaseService {
         return returnList(page, true);
     }
 
-    public BaseResponse save(Integer id, String no, Integer diff, Integer status, Integer state, String startTime, String schedule, Integer merchantId) {
+    public BaseResponse save(Integer id, String no, Integer diff, Integer status, Integer state, String startTime, String schedule) {
         Inventory inventory=new Inventory();
         if(id!=null){
             inventory=inventoryRepo.findOne(id);
         }else{
             inventory.setCreateTime(new Date());
-            inventory.setMerchant(merchantRepo.findOne(merchantId));
         }
         inventory.setNo(no);
         if(diff!=null){

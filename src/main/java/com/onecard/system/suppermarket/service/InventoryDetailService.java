@@ -2,10 +2,13 @@ package com.onecard.system.suppermarket.service;
 
 import com.huaying.framework.response.BaseResponse;
 import com.huaying.framework.response.CommonErrorResponse;
-import com.kmut.retail.entity.Goods;
-import com.kmut.retail.entity.Inventory;
-import com.kmut.retail.entity.InventoryDetail;
-import com.kmut.retail.repo.*;
+import com.onecard.system.suppermarket.entity.Goods;
+import com.onecard.system.suppermarket.entity.Inventory;
+import com.onecard.system.suppermarket.entity.InventoryDetail;
+import com.onecard.system.suppermarket.repo.GoodsRepo;
+import com.onecard.system.suppermarket.repo.InventoryDetailRepo;
+import com.onecard.system.suppermarket.repo.InventoryRepo;
+import com.onecard.system.suppermarket.repo.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -19,18 +22,18 @@ public class InventoryDetailService extends BaseService {
     @Autowired
     InventoryDetailRepo inventoryDetailRepo;
     @Autowired
-    MerchantUserRepo merchantUserRepo;
-    @Autowired
     GoodsRepo goodsRepo;
     @Autowired
     InventoryRepo inventoryRepo;
+    @Autowired
+    UserRepo userRepo;
 
     public BaseResponse findByInventoryId(Integer id, Integer pageNo, Integer pageSize){
         Page page = inventoryDetailRepo.findByInventoryId(id, new PageRequest(pageNo, pageSize));
         return returnList(page, true);
     }
 
-    public BaseResponse save(Integer id, Integer goodsId, Integer num, Integer inventoryId, Integer merchantUserId) {
+    public BaseResponse save(Integer id, Integer goodsId, Integer num, Integer inventoryId, Integer userId) {
         InventoryDetail inventoryDetail = new InventoryDetail();
         Goods goods = goodsRepo.findOne(goodsId);
         Integer diff = goods.getNum() - num;
@@ -39,7 +42,7 @@ public class InventoryDetailService extends BaseService {
             inventoryDetail = inventoryDetailRepo.findOne(id);
             oldDiff = inventoryDetail.getDiff();
         }else{
-            inventoryDetail.setMerchantUser(merchantUserRepo.findOne(merchantUserId));
+            inventoryDetail.setUser(userRepo.findOne(userId));
         }
         Inventory inventory=inventoryRepo.findOne(inventoryId);
         inventory.setDiff(inventory.getDiff()+diff-oldDiff);
@@ -59,9 +62,9 @@ public class InventoryDetailService extends BaseService {
         return returnSave(inventoryDetail,true);
     }
 
-    public BaseResponse delete(Integer id, Integer merchantUserId) {
+    public BaseResponse delete(Integer id, Integer userId) {
         InventoryDetail inventoryDetail = inventoryDetailRepo.findOne(id);
-        if(inventoryDetail.getMerchantUser().getId().equals(merchantUserId)){
+        if(inventoryDetail.getUser().getId().equals(userId)){
             inventoryDetailRepo.delete(id);
             Inventory inventory=inventoryRepo.findOne(inventoryDetail.getInventory().getId());
             inventory.setDiff(inventory.getDiff()-inventoryDetail.getDiff());
