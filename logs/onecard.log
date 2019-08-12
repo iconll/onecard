@@ -4808,3 +4808,12 @@ Caused by: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Unknown da
 2019-08-08 10:02:06.622 DEBUG 18241 --- [restartedMain] c.o.system.sys.dao.DictDao.loadAll       : <==      Total: 15
 2019-08-08 10:02:06.624  INFO 18241 --- [restartedMain] c.o.s.common.config.init.InitDictCache   : -------------完成数据字典初始化-------------
 2019-08-08 10:02:06.626  INFO 18241 --- [restartedMain] c.o.system.OnecardSystemApplication      : Started OnecardSystemApplication in 15.714 seconds (JVM running for 16.574)
+2019-08-12 15:00:36.178  INFO 18241 --- [http-nio-8081-exec-3] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring FrameworkServlet 'dispatcherServlet'
+2019-08-12 15:00:36.189  INFO 18241 --- [http-nio-8081-exec-3] o.s.web.servlet.DispatcherServlet        : FrameworkServlet 'dispatcherServlet': initialization started
+2019-08-12 15:00:36.403  INFO 18241 --- [http-nio-8081-exec-3] o.s.web.servlet.DispatcherServlet        : FrameworkServlet 'dispatcherServlet': initialization completed in 214 ms
+2019-08-12 16:25:56.778  INFO 18241 --- [Thread-39] ationConfigEmbeddedWebApplicationContext : Closing org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@17da37ca: startup date [Thu Aug 08 10:01:51 CST 2019]; root of context hierarchy
+2019-08-12 16:25:56.783  INFO 18241 --- [Thread-39] o.s.c.support.DefaultLifecycleProcessor  : Stopping beans in phase 2147483647
+2019-08-12 16:25:56.790  INFO 18241 --- [Thread-39] o.s.j.e.a.AnnotationMBeanExporter        : Unregistering JMX-exposed beans on shutdown
+2019-08-12 16:25:56.790  INFO 18241 --- [Thread-39] o.s.j.e.a.AnnotationMBeanExporter        : Unregistering JMX-exposed beans
+2019-08-12 16:25:56.797  INFO 18241 --- [Thread-39] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2019-08-12 16:25:56.801  INFO 18241 --- [Thread-39] com.alibaba.druid.pool.DruidDataSource   : {dataSource-1} closed
