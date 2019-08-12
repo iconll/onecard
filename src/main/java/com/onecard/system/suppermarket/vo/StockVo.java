@@ -1,6 +1,5 @@
 package com.onecard.system.suppermarket.vo;
 
-
 import com.onecard.system.suppermarket.entity.Goods;
 
 /**
