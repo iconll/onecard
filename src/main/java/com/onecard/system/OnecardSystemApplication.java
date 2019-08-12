@@ -1,10 +1,7 @@
 package com.onecard.system;
 
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.autoconfigure.SpringBootApplication;;
-import org.springframework.boot.autoconfigure.data.jpa.JpaRepositoriesAutoConfiguration;
-import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.MultipartConfigFactory;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
@@ -12,15 +9,17 @@ import org.springframework.context.annotation.Bean;
 import javax.servlet.MultipartConfigElement;
 import java.io.File;
 
+/**
+ * 启动类
+ */
 @SpringBootApplication
-@EnableAutoConfiguration(exclude = {HibernateJpaAutoConfiguration.class,JpaRepositoriesAutoConfiguration.class})
 @EnableCaching
-
 public class OnecardSystemApplication {
 	
 	public static void main(String[] args) {
 		SpringApplication.run(OnecardSystemApplication.class, args);
 	}
+
 	@Bean
 	public MultipartConfigElement configElement(){
 		String tmpUrl = "";
@@ -43,4 +42,5 @@ public class OnecardSystemApplication {
 		factory.setLocation(tmpUrl);
 		return factory.createMultipartConfig();
 	}
+
 }
