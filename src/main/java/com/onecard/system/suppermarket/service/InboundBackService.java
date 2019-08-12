@@ -3,11 +3,14 @@ package com.onecard.system.suppermarket.service;
 import com.huaying.framework.response.BaseResponse;
 import com.huaying.framework.response.CommonSuccessResponse;
 import com.huaying.framework.utils.StringUtils;
-import com.kmut.retail.entity.*;
-import com.kmut.retail.repo.GoodsRepo;
-import com.kmut.retail.repo.InboundBackRepo;
-import com.kmut.retail.repo.InboundDetailRepo;
-import com.kmut.retail.repo.InboundRepo;
+import com.onecard.system.suppermarket.entity.Goods;
+import com.onecard.system.suppermarket.entity.Inbound;
+import com.onecard.system.suppermarket.entity.InboundBack;
+import com.onecard.system.suppermarket.entity.InboundDetail;
+import com.onecard.system.suppermarket.repo.GoodsRepo;
+import com.onecard.system.suppermarket.repo.InboundBackRepo;
+import com.onecard.system.suppermarket.repo.InboundDetailRepo;
+import com.onecard.system.suppermarket.repo.InboundRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -92,7 +95,7 @@ public class InboundBackService extends BaseService {
         if(inboundDetail==null){
             inboundDetail = new InboundDetail();
             inboundDetail.setGoods(back.getGoods());
-            inboundDetail.setMerchantUser(back.getMerchantUser());
+            inboundDetail.setUser(back.getUser());
             inboundDetail.setInbound(back.getInbound());
             inboundDetail.setNum(back.getNum());
             inboundDetail.setSumPrice(back.getSumPrice());

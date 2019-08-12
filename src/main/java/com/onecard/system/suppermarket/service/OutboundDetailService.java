@@ -4,14 +4,16 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.huaying.framework.response.BaseJsonResponse;
 import com.huaying.framework.response.BaseResponse;
-import com.huaying.framework.response.CommonErrorResponse;
 import com.huaying.framework.utils.DateUtil;
 import com.huaying.framework.utils.PoToJson;
 import com.huaying.framework.utils.StringUtils;
-import com.kmut.retail.entity.Goods;
-import com.kmut.retail.entity.Outbound;
-import com.kmut.retail.entity.OutboundDetail;
-import com.kmut.retail.repo.*;
+import com.onecard.system.suppermarket.entity.Goods;
+import com.onecard.system.suppermarket.entity.Outbound;
+import com.onecard.system.suppermarket.entity.OutboundDetail;
+import com.onecard.system.suppermarket.repo.GoodsRepo;
+import com.onecard.system.suppermarket.repo.OutboundDetailRepo;
+import com.onecard.system.suppermarket.repo.OutboundRepo;
+import com.onecard.system.suppermarket.repo.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -34,9 +36,9 @@ public class OutboundDetailService extends BaseService {
     @Autowired
     OutboundRepo outboundRepo;
     @Autowired
-    MerchantUserRepo merchantUserRepo;
-    @Autowired
     GoodsRepo goodsRepo;
+    @Autowired
+    UserRepo userRepo;
     @Autowired
     private EntityManager entityManager;
 
@@ -45,7 +47,7 @@ public class OutboundDetailService extends BaseService {
         return returnList(page, true);
     }
 
-    public BaseResponse list(String startTime, String endTime, Integer goodsId, String goodsName, String goodsCode, String goodsType, Integer payment, Integer merchantId,Integer outboundId, Integer type, Integer pageNo, Integer pageSize) {
+    public BaseResponse list(String startTime, String endTime, Integer goodsId, String goodsName, String goodsCode, String goodsType, Integer payment, Integer outboundId, Integer type, Integer pageNo, Integer pageSize) {
         Page<OutboundDetail> page = outboundDetailRepo.findAll((root, criteriaQuery, criteriaBuilder) -> {
             List<Predicate> list = new ArrayList<>();
             if (StringUtils.isNotBlank(startTime)) {
@@ -54,10 +56,6 @@ public class OutboundDetailService extends BaseService {
 
             if (StringUtils.isNotBlank(endTime)) {
                 list.add(criteriaBuilder.lessThanOrEqualTo(root.get("outbound").get("outTime").as(Date.class), DateUtil.parseDate(endTime + " 23:59:59", "yyyy-MM-dd HH:mm:ss")));
-            }
-
-            if (merchantId != null) {
-                list.add(criteriaBuilder.equal(root.get("outbound").get("merchant").get("id").as(Integer.class), merchantId));
             }
             if (outboundId != null) {
                 list.add(criteriaBuilder.equal(root.get("outbound").get("id").as(Integer.class), outboundId));
@@ -87,7 +85,7 @@ public class OutboundDetailService extends BaseService {
         return returnList(page, true);
     }
 
-    public BaseResponse findByGroupGoods(String startTime, String endTime, String goodsName, String goodsCode, String goodsType, Integer merchantId,Integer pageNo, Integer pageSize) {
+    public BaseResponse findByGroupGoods(String startTime, String endTime, String goodsName, String goodsCode, String goodsType,Integer pageNo, Integer pageSize) {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Tuple> criteriaQuery = criteriaBuilder.createTupleQuery();//配合后面的multiselect
         Root<OutboundDetail> root = criteriaQuery.from(OutboundDetail.class);//具体实体的Root
@@ -101,10 +99,6 @@ public class OutboundDetailService extends BaseService {
 
         if (StringUtils.isNotBlank(endTime)) {
             list.add(criteriaBuilder.lessThanOrEqualTo(root.get("outbound").get("outTime").as(Date.class), DateUtil.parseDate(endTime + " 23:59:59", "yyyy-MM-dd HH:mm:ss")));
-        }
-
-        if (merchantId != null) {
-            list.add(criteriaBuilder.equal(root.get("merchant").get("id").as(Integer.class), merchantId));
         }
         if (StringUtils.isNotBlank(goodsName)) {
             list.add(criteriaBuilder.like(root.get("goods").get("name").as(String.class), "%" + goodsName + "%"));
@@ -135,7 +129,7 @@ public class OutboundDetailService extends BaseService {
         return response;
     }
 
-    public BaseResponse save(Integer id, Integer goodsId, Integer num, Double price, Integer outboundId, Integer merchantUserId) {
+    public BaseResponse save(Integer id, Integer goodsId, Integer num, Double price, Integer outboundId, Integer userId) {
         OutboundDetail outboundDetail = new OutboundDetail();
         Outbound outbound=outboundRepo.findOne(outboundId);
         Goods goods=goodsRepo.getOne(goodsId);
@@ -145,16 +139,13 @@ public class OutboundDetailService extends BaseService {
             outboundDetail = outboundDetailRepo.getOne(id);
             sumnum=sumnum-outboundDetail.getNum();
             sumPrice=sumPrice-outboundDetail.getSumPrice();
-            if(!outboundDetail.getMerchantUser().getId().equals(merchantUserId)){{
-                return new CommonErrorResponse("只能编辑自己录入的信息");
-            }}
         }
         outboundDetail.setGoods(goods);
         outboundDetail.setNum(num);
         outboundDetail.setPrice(price);
         outboundDetail.setSumPrice(num*price);
         outboundDetail.setOutbound(outbound);
-        outboundDetail.setMerchantUser(merchantUserRepo.findOne(merchantUserId));
+        outboundDetail.setUser(userRepo.findOne(userId));
 
         goods.setNum(goods.getNum()-sumnum);
         goods.setSumPrice(goods.getSumPrice()-sumPrice);
@@ -168,22 +159,18 @@ public class OutboundDetailService extends BaseService {
         return returnSave(outboundDetail, true);
     }
 
-    public BaseResponse delete(Integer id, Integer merchantUserId) {
+    public BaseResponse delete(Integer id) {
         OutboundDetail outboundDetail = outboundDetailRepo.findOne(id);
-        if(outboundDetail.getMerchantUser().getId().equals(merchantUserId)){
-            outboundDetailRepo.delete(id);
-            Outbound outbound=outboundRepo.findOne(outboundDetail.getOutbound().getId());
-            Goods goods=goodsRepo.getOne(outboundDetail.getGoods().getId());
-            goods.setNum(goods.getNum()+outboundDetail.getNum());
-            goods.setSumPrice(goods.getSumPrice()+outboundDetail.getSumPrice());
-            goodsRepo.save(goods);
+        outboundDetailRepo.delete(id);
+        Outbound outbound=outboundRepo.findOne(outboundDetail.getOutbound().getId());
+        Goods goods=goodsRepo.getOne(outboundDetail.getGoods().getId());
+        goods.setNum(goods.getNum()+outboundDetail.getNum());
+        goods.setSumPrice(goods.getSumPrice()+outboundDetail.getSumPrice());
+        goodsRepo.save(goods);
 
-            outbound.setNum(outbound.getNum()-outboundDetail.getNum());
-            outbound.setSumPrice(outbound.getSumPrice()-outboundDetail.getSumPrice());
-            outboundRepo.save(outbound);
-            return returnGet(outbound,true);
-        }else{
-            return new CommonErrorResponse("只能编辑自己录入的信息");
-        }
+        outbound.setNum(outbound.getNum()-outboundDetail.getNum());
+        outbound.setSumPrice(outbound.getSumPrice()-outboundDetail.getSumPrice());
+        outboundRepo.save(outbound);
+        return returnGet(outbound,true);
     }
 }

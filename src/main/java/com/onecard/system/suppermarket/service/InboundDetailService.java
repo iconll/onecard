@@ -8,13 +8,13 @@ import com.huaying.framework.response.CommonErrorResponse;
 import com.huaying.framework.utils.DateUtil;
 import com.huaying.framework.utils.PoToJson;
 import com.huaying.framework.utils.StringUtils;
-import com.kmut.retail.entity.Goods;
-import com.kmut.retail.entity.Inbound;
-import com.kmut.retail.entity.InboundDetail;
-import com.kmut.retail.repo.GoodsRepo;
-import com.kmut.retail.repo.InboundDetailRepo;
-import com.kmut.retail.repo.InboundRepo;
-import com.kmut.retail.repo.MerchantUserRepo;
+import com.onecard.system.suppermarket.entity.Goods;
+import com.onecard.system.suppermarket.entity.Inbound;
+import com.onecard.system.suppermarket.entity.InboundDetail;
+import com.onecard.system.suppermarket.repo.GoodsRepo;
+import com.onecard.system.suppermarket.repo.InboundDetailRepo;
+import com.onecard.system.suppermarket.repo.InboundRepo;
+import com.onecard.system.suppermarket.repo.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -40,7 +40,7 @@ public class InboundDetailService extends BaseService {
     @Autowired
     InboundRepo inboundRepo;
     @Autowired
-    MerchantUserRepo merchantUserRepo;
+    UserRepo userRepo;
 
     @Autowired
     private EntityManager entityManager;
@@ -50,7 +50,7 @@ public class InboundDetailService extends BaseService {
         return returnList(page, true);
     }
 
-    public BaseResponse list(String startTime, String endTime, Integer goodsId, String goodsName, String goodsCode, String goodsType, Integer isSettle,Integer inboundId,Integer merchantId, String supplierName, Integer pageNo, Integer pageSize) {
+    public BaseResponse list(String startTime, String endTime, Integer goodsId, String goodsName, String goodsCode, String goodsType, Integer isSettle,Integer inboundId, String supplierName, Integer pageNo, Integer pageSize) {
         Page<InboundDetail> page = inboundDetailRepo.findAll((root, criteriaQuery, criteriaBuilder) -> {
             List<Predicate> list = new ArrayList<>();
             if (StringUtils.isNotBlank(startTime)) {
@@ -59,10 +59,6 @@ public class InboundDetailService extends BaseService {
 
             if (StringUtils.isNotBlank(endTime)) {
                 list.add(criteriaBuilder.lessThanOrEqualTo(root.get("inbound").get("purchaseTime").as(Date.class), DateUtil.parseDate(endTime + " 23:59:59", "yyyy-MM-dd HH:mm:ss")));
-            }
-
-            if (merchantId != null) {
-                list.add(criteriaBuilder.equal(root.get("inbound").get("merchant").get("id").as(Integer.class), merchantId));
             }
 
             if(inboundId!=null){
@@ -94,7 +90,7 @@ public class InboundDetailService extends BaseService {
         return returnList(page, true);
     }
 
-    public BaseResponse findByGroupGoods(String startTime, String endTime, String goodsName, String goodsCode, String goodsType, Integer merchantId, Integer pageNo, Integer pageSize) {
+    public BaseResponse findByGroupGoods(String startTime, String endTime, String goodsName, String goodsCode, String goodsType, Integer pageNo, Integer pageSize) {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Tuple> criteriaQuery = criteriaBuilder.createTupleQuery();//配合后面的multiselect
         Root<InboundDetail> root = criteriaQuery.from(InboundDetail.class);//具体实体的Root
@@ -108,10 +104,6 @@ public class InboundDetailService extends BaseService {
 
         if (StringUtils.isNotBlank(endTime)) {
             list.add(criteriaBuilder.lessThanOrEqualTo(root.get("inbound").get("purchaseTime").as(Date.class), DateUtil.parseDate(endTime + " 23:59:59", "yyyy-MM-dd HH:mm:ss")));
-        }
-
-        if (merchantId != null) {
-            list.add(criteriaBuilder.equal(root.get("inbound").get("merchant").get("id").as(Integer.class), merchantId));
         }
 
         if (StringUtils.isNotBlank(goodsName)) {
@@ -143,7 +135,7 @@ public class InboundDetailService extends BaseService {
         return response;
     }
 
-    public BaseResponse save(Integer id, Integer goodsId, Integer num, Double price,Integer inboundId, Integer merchantUserId) {
+    public BaseResponse save(Integer id, Integer goodsId, Integer num, Double price,Integer inboundId, Integer userId) {
         InboundDetail inboundDetail = new InboundDetail();
         Inbound inbound=inboundRepo.findOne(inboundId);
         Goods goods=goodsRepo.getOne(goodsId);
@@ -159,7 +151,7 @@ public class InboundDetailService extends BaseService {
         inboundDetail.setPrice(price);
         inboundDetail.setSumPrice(num*price);
         inboundDetail.setInbound(inbound);
-        inboundDetail.setMerchantUser(merchantUserRepo.findOne(merchantUserId));
+        inboundDetail.setUser(userRepo.findOne(userId));
 
         goods.setNum(goods.getNum()+sumnum);
         goods.setSumPrice(goods.getSumPrice()+sumPrice);
@@ -173,9 +165,9 @@ public class InboundDetailService extends BaseService {
         return returnSave(inboundDetail, true);
     }
 
-    public BaseResponse delete(Integer id, Integer merchantUserId) {
+    public BaseResponse delete(Integer id, Integer userId) {
         InboundDetail inboundDetail=inboundDetailRepo.findOne(id);
-        if(inboundDetail.getMerchantUser().getId().equals(merchantUserId)){
+        if(inboundDetail.getUser().getId().equals(userId)){
             inboundDetailRepo.delete(id);
             Inbound inbound=inboundRepo.findOne(inboundDetail.getInbound().getId());
             Goods goods=goodsRepo.getOne(inboundDetail.getGoods().getId());

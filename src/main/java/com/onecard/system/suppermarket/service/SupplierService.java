@@ -3,12 +3,10 @@ package com.onecard.system.suppermarket.service;
 import com.huaying.framework.response.BaseResponse;
 import com.huaying.framework.response.CommonSuccessResponse;
 import com.huaying.framework.utils.StringUtils;
-import com.kmut.retail.entity.Merchant;
-import com.kmut.retail.entity.MerchantUser;
-import com.kmut.retail.entity.Supplier;
-import com.kmut.retail.repo.MerchantRepo;
-import com.kmut.retail.repo.MerchantUserRepo;
-import com.kmut.retail.repo.SupplierRepo;
+import com.onecard.system.suppermarket.entity.Supplier;
+import com.onecard.system.suppermarket.entity.User;
+import com.onecard.system.suppermarket.repo.SupplierRepo;
+import com.onecard.system.suppermarket.repo.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -24,21 +22,17 @@ public class SupplierService extends BaseService {
     @Autowired
     SupplierRepo supplierRepo;
     @Autowired
-    MerchantRepo merchantRepo;
-    @Autowired
-    MerchantUserRepo merchantUserRepo;
+    UserRepo userRepo;
 
     /**
      * 保存
      * @param supplier
      * @return
      */
-    public BaseResponse save(Supplier supplier,Integer merchantId,Integer userId){
+    public BaseResponse save(Supplier supplier, Integer userId){
         if(supplier.getId()==null){
-            MerchantUser merchantUser=merchantUserRepo.findOne(userId);
-            Merchant merchant=merchantRepo.findOne(merchantId);
-            supplier.setMerchant(merchant);
-            supplier.setMerchantUser(merchantUser);
+            User user=userRepo.findOne(userId);
+            supplier.setUser(user);
             supplier.setCreateTime(new Date());
         }else{
             Supplier target = supplierRepo.findOne(supplier.getId());
@@ -71,17 +65,16 @@ public class SupplierService extends BaseService {
     /**
      * 列表查询
      * @param name
-     * @param merchantId
      * @param pageNo
      * @param pageSize
      * @return
      */
-    public BaseResponse list(String name, Integer merchantId, Integer pageNo, Integer pageSize){
+    public BaseResponse list(String name, Integer pageNo, Integer pageSize){
         Page page = null;
         if(StringUtils.isNotEmpty(name)){
-            page = supplierRepo.findByMerchantIdAndNameLike(merchantId, "%"+name+"%", new PageRequest(pageNo, pageSize));
+            page = supplierRepo.findByNameLike("%"+name+"%", new PageRequest(pageNo, pageSize));
         }else{
-            page = supplierRepo.findByMerchantId(merchantId, new PageRequest(pageNo, pageSize));
+            page = supplierRepo.findAll(new PageRequest(pageNo, pageSize));
         }
         return returnList(page, false);
     }
