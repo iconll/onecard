@@ -3,9 +3,8 @@ package com.onecard.system.suppermarket.service;
 import com.huaying.framework.response.BaseResponse;
 import com.huaying.framework.response.CommonSuccessResponse;
 import com.huaying.framework.utils.StringUtils;
-import com.kmut.retail.entity.GoodsType;
-import com.kmut.retail.repo.GoodsTypeRepo;
-import com.kmut.retail.repo.MerchantRepo;
+import com.onecard.system.suppermarket.entity.GoodsType;
+import com.onecard.system.suppermarket.repo.GoodsTypeRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -30,17 +29,14 @@ public class GoodsTypeService extends BaseService{
 
     @Autowired
     GoodsTypeRepo goodsTypeRepo;
-    @Autowired
-    MerchantRepo merchantRepo;
 
     /**
      * 保存商品类型
      * @param goodsType
      * @return
      */
-    public BaseResponse save(GoodsType goodsType,Integer merchantId){
+    public BaseResponse save(GoodsType goodsType){
         if(goodsType.getId()==null){
-            goodsType.setMerchant(merchantRepo.getOne(merchantId));
             goodsType.setCreateTime(new Date());
         }else{
             GoodsType target = goodsTypeRepo.findOne(goodsType.getId());
@@ -52,17 +48,16 @@ public class GoodsTypeService extends BaseService{
 
     /**
      * 根据类型名称和商家ID做分页查询
-     * @param merchantId
      * @param name
      * @param pageable
      * @return
      */
-    public BaseResponse findByNameAndMerchantId(Integer merchantId, String name, Pageable pageable){
+    public BaseResponse findByName(String name, Pageable pageable){
         Page page = null;
         if(StringUtils.isEmpty(name)){
-            page = goodsTypeRepo.findByMerchant(merchantId, pageable);
+            page = goodsTypeRepo.findAll(pageable);
         }else{
-            page = goodsTypeRepo.findByNameAndMerchant(merchantId, name, pageable);
+            page = goodsTypeRepo.findByName(name, pageable);
         }
         return returnList(page, false);
     }

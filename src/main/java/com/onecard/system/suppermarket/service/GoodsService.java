@@ -5,16 +5,11 @@ import com.huaying.framework.response.BaseResponse;
 import com.huaying.framework.response.CommonErrorResponse;
 import com.huaying.framework.response.CommonSuccessResponse;
 import com.huaying.framework.utils.StringUtils;
-import com.kmut.retail.entity.Goods;
-import com.kmut.retail.repo.GoodsRepo;
-import com.kmut.retail.repo.GoodsTypeRepo;
-import com.kmut.retail.repo.MerchantRepo;
-import com.kmut.retail.repo.MerchantUserRepo;
-import com.kmut.retail.vo.StockVo;
 import com.onecard.system.suppermarket.entity.Goods;
 import com.onecard.system.suppermarket.repo.GoodsRepo;
 import com.onecard.system.suppermarket.repo.GoodsTypeRepo;
 import com.onecard.system.suppermarket.repo.UserRepo;
+import com.onecard.system.suppermarket.vo.StockVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -47,7 +42,7 @@ public class GoodsService extends BaseService{
      * @param goods
      * @return
      */
-    public BaseResponse save(Goods goods, Integer merchantId, Integer goodsTypeId, Integer userId){
+    public BaseResponse save(Goods goods, Integer goodsTypeId, Integer userId){
         if(goods.getId()==null){
             goods.setCreateTime(new Date());
             goods.setUser(userRepo.getOne(userId));
@@ -122,8 +117,8 @@ public class GoodsService extends BaseService{
         return returnList(page, true);
     }
 
-    public BaseResponse queryByCode(Integer merchantId, String code){
-        List<Goods> list = goodsRepo.queryByMerchantIdAndCode(merchantId, code);
+    public BaseResponse queryByCode(String code){
+        List<Goods> list = goodsRepo.queryByCode(code);
         if(list!=null && list.size()>0){
             return returnGet(list.get(0), true);
         }else{
@@ -143,9 +138,9 @@ public class GoodsService extends BaseService{
         if((StringUtils.isNotEmpty(code)) || (StringUtils.isNotEmpty(code) && StringUtils.isNotEmpty(name))){
             page = goodsRepo.getStockByCode(code, pageable);
         }else if(StringUtils.isEmpty(code) && StringUtils.isEmpty(name)){
-            page = goodsRepo.getStock(merchantId, pageable);
-        }else if(merchantId!=null && StringUtils.isNotEmpty(name)){
-            page = goodsRepo.getStockByName(merchantId, name, pageable);
+            page = goodsRepo.getStock(pageable);
+        }else if(StringUtils.isNotEmpty(name)){
+            page = goodsRepo.getStockByName(name, pageable);
         }else{
             return new CommonErrorResponse("参数异常，请联系程序员小哥哥！");
         }
