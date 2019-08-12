@@ -149,4 +149,15 @@ public class UserController extends GenericController<User,QueryUser> {
         return getPageBaseRoot() + "/group";
     }
 
+    /**
+     * 功能描述：登录成功后跳转
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value="/login")
+    public String login() throws Exception{
+
+        return getPageBaseRoot() + "/main";
+    }
+
 }

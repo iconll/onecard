@@ -34,7 +34,7 @@
 			<div class="login-top">
 				<a href="/login">登录</a>
 			</div>
-			<form id="loginForm" name="form" action="@{/login}" action="/login" method="POST">
+			<form id="loginForm" name="form" action="@{/login}" action="/user/login" method="POST">
 				<div class="login-center clearfix">
 					<div class="login-center-img"><img src="../img/login/name.png"/></div>
 					<div class="login-center-input">
@@ -98,13 +98,13 @@
 	  if (cls.replace(/\s/g, '').length == 0) return false; //当cls没有参数时，返回false
 	  return new RegExp(' ' + cls + ' ').test(' ' + elem.className + ' ');
 	}
-	 
+
 	function addClass(ele, cls) {
 	  if (!hasClass(ele, cls)) {
 	    ele.className = ele.className == '' ? cls : ele.className + ' ' + cls;
 	  }
 	}
-	 
+
 	function removeClass(ele, cls) {
 	  if (hasClass(ele, cls)) {
 	    var newClass = ' ' + ele.className.replace(/[\t\r\n]/g, '') + ' ';
