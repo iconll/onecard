@@ -1,6 +1,7 @@
 package com.onecard.system.suppermarket.entity;
 
 import java.io.Serializable;
+import java.math.BigInteger;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -20,7 +21,12 @@ import javax.persistence.FetchType;
 public class UserAssociateRole implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
+
+	/** ID */
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name="id", length=20)
+	private BigInteger id;
 	
 	/** user_id */
 	@ManyToOne(fetch = FetchType.LAZY)
