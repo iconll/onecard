@@ -55,6 +55,9 @@ public class OrgGroup implements Serializable {
 	
 	/** 多表关系映射 */
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "orgGroup")
+	private Set<OrgUser> orgUser = new HashSet<OrgUser>(0);
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "orgGroup")
 	private Set<User> user = new HashSet<User>(0);
 
 	
@@ -113,6 +116,14 @@ public class OrgGroup implements Serializable {
 
 	public void setParentNode(String parentNode) {
 		this.parentNode = parentNode;
+	}
+	
+	public Set<OrgUser> getOrgUser() {
+		return this.orgUser;
+	}
+
+	public void setOrgUser(Set<OrgUser> orgUser) {
+		this.orgUser = orgUser;
 	}
 	
 	public Set<User> getUser() {
