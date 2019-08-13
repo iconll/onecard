@@ -2,7 +2,7 @@ package com.onecard.system.suppermarket.controller;
 
 import com.huaying.framework.annotation.AComment;
 import com.huaying.framework.response.BaseResponse;
-import com.kmut.retail.service.OutboundDetailService;
+import com.onecard.system.suppermarket.service.OutboundDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,8 +28,8 @@ public class OutboundDetailController {
     @PreAuthorize("hasAuthority('retail')")
     @AComment(comment = "产品出库明细-查询")
     public BaseResponse list(String startTime, String endTime,Integer goodsId,String goodsName,String goodsCode,String goodsType,Integer payment,
-                             Integer merchantId, Integer outboundId,Integer type,Integer pageNo, Integer pageSize){
-        return outboundDetailService.list(startTime, endTime,goodsId,goodsName,goodsCode,goodsType,payment, merchantId,outboundId,type, pageNo-1, pageSize);
+                             Integer outboundId,Integer type,Integer pageNo, Integer pageSize){
+        return outboundDetailService.list(startTime, endTime,goodsId,goodsName,goodsCode,goodsType,payment,outboundId,type, pageNo-1, pageSize);
     }
 
     @PostMapping("/save")
@@ -42,16 +42,16 @@ public class OutboundDetailController {
     @PostMapping("/delete")
     @PreAuthorize("hasAuthority('retail')")
     @AComment(comment = "产品出库明细-删除")
-    public BaseResponse save(Integer id,Integer merchantUserId){
-        return outboundDetailService.delete(id, merchantUserId);
+    public BaseResponse save(Integer id){
+        return outboundDetailService.delete(id);
     }
 
     @PostMapping("/getByGoods")
     @PreAuthorize("hasAuthority('retail')")
     @AComment(comment = "产品出库统计")
     public BaseResponse getByGoods(String startTime, String endTime, String goodsName,String goodsCode,String goodsType,
-                                   Integer merchantId, Integer pageNo, Integer pageSize){
-        return outboundDetailService.findByGroupGoods(startTime, endTime, goodsName,goodsCode,goodsType, merchantId, pageNo-1, pageSize);
+                                   Integer pageNo, Integer pageSize){
+        return outboundDetailService.findByGroupGoods(startTime, endTime, goodsName,goodsCode,goodsType, pageNo-1, pageSize);
     }
 
 }
