@@ -64,6 +64,7 @@ public class MyAuthenticationSuccessHandler implements AuthenticationSuccessHand
                 HttpSession session = request.getSession();
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日 HH:mm");
                 session.setAttribute("lastLoginTime",sdf.format(beforeLoginDate));
+                session.setAttribute("name", ((User) authentication.getPrincipal()).getUserName());
             }
         }catch(Exception e){
             logger.error( "MyAuthenticationSuccessHandler.onAuthenticationSuccess Exception:" + e);

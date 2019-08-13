@@ -51,7 +51,7 @@
         <ul class="nav navbar-right top-nav">
             <li class="topLi">
                 <i class="fa fa-user-circle" style="font-size:20px;"></i>
-                欢迎<font th:text="${#authentication.name}"></font>，您上次登录时间为：<font th:text="${session.lastLoginTime}"></font></li>
+                欢迎<font th:text="${session.name}"></font>，您上次登录时间为：<font th:text="${session.lastLoginTime}"></font></li>
             <li class="topLi">
                     <span class="updatePwd" style="margin-right:20px;">
                         <a href="#" onclick="toUpdatePwd();">
