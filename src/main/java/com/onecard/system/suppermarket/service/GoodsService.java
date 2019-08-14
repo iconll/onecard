@@ -10,6 +10,7 @@ import com.onecard.system.suppermarket.repo.GoodsRepo;
 import com.onecard.system.suppermarket.repo.GoodsTypeRepo;
 import com.onecard.system.suppermarket.repo.UserRepo;
 import com.onecard.system.suppermarket.vo.StockVo;
+import com.onecard.system.sys.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

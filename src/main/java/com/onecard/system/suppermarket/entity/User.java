@@ -110,9 +110,6 @@ public class User implements Serializable {
 	private Set<InventoryDetail> inventoryDetail = new HashSet<InventoryDetail>(0);
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
-	private Set<OrgUser> orgUser = new HashSet<OrgUser>(0);
-
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
 	private Set<OutboundBack> outboundBack = new HashSet<OutboundBack>(0);
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
@@ -284,14 +281,6 @@ public class User implements Serializable {
 
 	public void setInventoryDetail(Set<InventoryDetail> inventoryDetail) {
 		this.inventoryDetail = inventoryDetail;
-	}
-	
-	public Set<OrgUser> getOrgUser() {
-		return this.orgUser;
-	}
-
-	public void setOrgUser(Set<OrgUser> orgUser) {
-		this.orgUser = orgUser;
 	}
 	
 	public Set<OutboundBack> getOutboundBack() {
