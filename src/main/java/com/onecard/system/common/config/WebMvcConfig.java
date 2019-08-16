@@ -73,5 +73,24 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
         registry.addViewController("/jzEdsxyjList").setViewName("sys/jzBaseInfo/jzEdsxyjList");
         //跳转到家装分期基础数据统计页面
         registry.addViewController("/jzStatisticsList").setViewName("sys/jzBaseInfo/jzStatisticsList");
+
+        //超市管理系统
+        //跳转到供货商进退货汇总表页面
+        registry.addViewController("/supplierSummary").setViewName("sys/supplier/summary");
+        //跳转到收款汇总流水页面
+        registry.addViewController("/receivableSummary").setViewName("sys/receivable/summary");
+        //跳转到收款明细流水页面
+        registry.addViewController("/receivableDetail").setViewName("sys/receivable/detail");
+        //跳转到付款明细流水页面
+        registry.addViewController("/paymentDetail").setViewName("sys/payment/detail");
+        //跳转到商品进销存报表页面
+        registry.addViewController("/goodsSummary").setViewName("sys/goods/summary");
+        //跳转到领用管理页面
+        registry.addViewController("/receiveCard").setViewName("sys/card/receive");
+        //跳转到称重商品管理页面
+        registry.addViewController("/goodsWeigh").setViewName("sys/goods/weigh");
+
+
+
     }
 }
