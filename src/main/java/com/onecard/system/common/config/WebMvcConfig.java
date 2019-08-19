@@ -58,6 +58,17 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
         // 跳转到支行管理页面
         registry.addViewController("/bankInfoList").setViewName("sys/bankInfo/bankInfoList");
 
+        // 跳转到管理分类
+        registry.addViewController("/goodstype").setViewName("supermarket/goodstype/GoodsType");
+        // 跳转到入库管理
+        registry.addViewController("/storageManagement").setViewName("supermarket/storageManagement/StorageManagement");
+        // 跳转到退货管理
+        registry.addViewController("/returnManagement").setViewName("supermarket/returnManagement/ReturnManagement");
+        // 跳转到供应商管理
+        registry.addViewController("/supplierManagement").setViewName("supermarket/supplierManagement/SupplierManagement");
+        // 跳转到盘盈盘亏
+        registry.addViewController("/profitAndLoss").setViewName("supermarket/profitAndLoss/ProfitAndLoss");
+
         //分期通
         //跳转到分期通基础数据管理页面
         registry.addViewController("/fqtBaseInfoList").setViewName("sys/fqtBaseInfo/fqtBaseInfoList");
