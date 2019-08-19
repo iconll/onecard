@@ -98,6 +98,9 @@ public class User implements Serializable {
 	
 	/** 多表关系映射 */
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+	private Set<Card> card = new HashSet<Card>(0);
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
 	private Set<Goods> goods = new HashSet<Goods>(0);
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
@@ -249,6 +252,14 @@ public class User implements Serializable {
 
 	public void setUserCode(String userCode) {
 		this.userCode = userCode;
+	}
+	
+	public Set<Card> getCard() {
+		return this.card;
+	}
+
+	public void setCard(Set<Card> card) {
+		this.card = card;
 	}
 	
 	public Set<Goods> getGoods() {
