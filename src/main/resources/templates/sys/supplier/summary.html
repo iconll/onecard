@@ -1,0 +1,92 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="include/includebase"></head>
+<body>
+<div class="panel-body" style="padding-bottom:0px;">
+    <div class="panel panel-default">
+        <div class="panel-heading">查询条件</div>
+        <div class="panel-body">
+            <form class="form-inline" role="form" style="float: left; width: 100%;margin-left: 20px;" method="post" id="queryRole">
+                <div class="form-group">
+                    <label for="name">供货商名称:</label>
+                    <input type="text" class="form-control" name="name" id="name"  placeholder="请供货商名称" />
+                </div>
+                <div class="form-group">
+                    <label for="date">查询日期:</label>
+                    <input type="text" class="form-control" id="date" name="date" data-date-format="yyyy-mm-dd hh:ii" placeholder="请选择日期" />
+                </div>
+                <div class="form-group">
+                    <button type="button" id="queryBtn" onclick="doQuery();" class="btn btn-primary">查询</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <table id="role-table" style="margin-top: -50px;">
+    </table>
+</div>
+<script th:inline="javascript">
+
+    $(function() {
+        initTable();
+        //处理表头和内容对不齐
+        $(window).resize(function(){
+            clTable();
+        });
+        $('#date').datetimepicker();
+    });
+
+    function doQuery(){
+        $('#role-table').bootstrapTable('refresh');    //刷新表格
+    }
+
+    function initTable(){
+        $('#role-table').bootstrapTable({
+            url:"role/list",
+            height: $(window.parent.document).find("#wrapper").height() - 252,
+            width:$(window).width(),
+            showColumns:true,
+            formId :"queryRole",
+            pagination : true,
+            sortName : 'id',
+            sortOrder : 'desc',
+            pageSize : 10,
+            toolbars:[
+                {
+                    text: '导出',
+                    iconCls: 'glyphicon glyphicon-plus',
+                }
+            ],
+            columns: [
+                {
+                    field: '',
+                    title: '序号',
+                    formatter: function (value, row, index) {
+                        return index+1;
+                    }
+                },
+                {
+                    field : 'name',
+                    title : '供货商名称',
+                    align : 'center',
+                    valign : 'middle',
+                    sortable : true
+                },
+                {
+                    field : 'roleName',
+                    title : '进货数量',
+                    align : 'center',
+                    valign : 'middle'
+                },
+                {
+                    field : 'roleName',
+                    title : '退货数量',
+                    align : 'center',
+                    valign : 'middle'
+                }],
+            onPostHeader:function(){
+                clTable();
+            }
+        });
+    }
+</script>
+</body>
+</html>
