@@ -2,18 +2,20 @@ package com.onecard.system.suppermarket.controller;
 
 import com.huaying.framework.annotation.AComment;
 import com.huaying.framework.response.BaseResponse;
+import com.onecard.system.suppermarket.entity.Card;
 import com.onecard.system.suppermarket.entity.Goods;
 import com.onecard.system.suppermarket.service.GoodsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/goods")
-public class GoodsController {
+public class GoodsController{
 
     @Autowired
     GoodsService goodsService;
@@ -52,6 +54,20 @@ public class GoodsController {
     @AComment(comment = "商品-库存查询")
     public BaseResponse getStock(String name, String code, Integer pageNo, Integer pageSize){
         return goodsService.getStock(name, code, new PageRequest(pageNo-1, pageSize));
+    }
+
+    @RequestMapping(value = "/updatePage")
+    public String updatePage(Integer id, Model model) throws Exception {
+        Goods goods = goodsService.findById(id);
+        model.addAttribute("entity", goods);
+        return "supermarket/goods/update";
+    }
+
+    @RequestMapping(value = "/detailPage")
+    public String detailPage(Integer id, Model model) throws Exception {
+        Goods goods = goodsService.findById(id);
+        model.addAttribute("entity", goods);
+        return "supermarket/goods/detail";
     }
 
 }

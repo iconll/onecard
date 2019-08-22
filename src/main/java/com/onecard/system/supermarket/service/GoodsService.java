@@ -169,4 +169,7 @@ public class GoodsService extends BaseService{
         return baseResponse;
     }
 
+    public Goods findById(Integer id) {
+        return goodsRepo.findOne(id);
+    }
 }
