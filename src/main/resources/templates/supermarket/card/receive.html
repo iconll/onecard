@@ -1,0 +1,112 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="include/includebase"></head>
+<body>
+<div class="panel-body" style="padding-bottom:0px;">
+    <div class="panel panel-default">
+        <div class="panel-heading">查询条件</div>
+        <div class="panel-body">
+            <form class="form-inline" role="form" style="float: left; width: 100%;margin-left: 20px;" method="post" id="queryRole">
+                <div class="form-group">
+                    <label for="name">卡编号:</label>
+                    <input type="text" class="form-control" name="name" id="name"  placeholder="请输入卡编号" />
+                </div>
+                <div class="form-group">
+                    <button type="button" id="queryBtn" onclick="doQuery();" class="btn btn-primary">查询</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <table id="role-table" style="margin-top: -50px;">
+    </table>
+</div>
+<script th:inline="javascript">
+
+    $(function() {
+        initTable();
+        //处理表头和内容对不齐
+        $(window).resize(function(){
+            clTable();
+        });
+        $('#date').datetimepicker();
+    });
+
+    function doQuery(){
+        $('#role-table').bootstrapTable('refresh');    //刷新表格
+    }
+
+    function initTable(){
+        $('#role-table').bootstrapTable({
+            url:"role/list",
+            height: $(window.parent.document).find("#wrapper").height() - 252,
+            width:$(window).width(),
+            showColumns:true,
+            formId :"queryRole",
+            pagination : true,
+            sortName : 'id',
+            sortOrder : 'desc',
+            pageSize : 10,
+            toolbars:[
+                {
+                    text: '添加',
+                    iconCls: 'glyphicon glyphicon-plus',
+                    handler: function () {
+                        window.Ewin.dialog({title:"添加",url:"role/addPage",width:600,height:310})
+                    }
+                }
+            ],
+            columns: [
+                {
+                    field: '',
+                    title: '序号',
+                    formatter: function (value, row, index) {
+                        return index+1;
+                    }
+                },
+                {
+                    field : 'code',
+                    title : '卡编号',
+                    align : 'center',
+                    valign : 'middle',
+                    sortable : true
+                },
+                {
+                    field : 'code',
+                    title : '卡余额',
+                    align : 'center',
+                    valign : 'middle',
+                },
+                {
+                    field: 'operate',
+                    title: '操作',
+                    formatter: operateFormatter //自定义方法，添加操作按钮
+                }],
+            onPostHeader:function(){
+                clTable();
+            }
+        });
+    }
+
+    function operateFormatter(value, row, index) {//赋予的参数
+        return [
+            '<a class="btn active" onclick="detailHandler('+row.id+')">消费详情</a>',
+            '<a class="btn active" onclick="updateHandler('+row.id+')">编辑</a>',
+            '<a class="btn active" onclick="deleteHandler('+row.id+')">删除</a>',
+        ].join('');
+    }
+
+    function deleteHandler(id) {
+        alert(id)
+        window.Ewin.confirm({title:'提示',message:'是否要删除您所选择的记录？',width:500}).on(function (e) {
+        });
+    }
+    function updateHandler(id) {
+        alert(id)
+        window.Ewin.dialog({title:"修改",url:"card/updatePage?id="+id,width:600,height:400});
+    }
+    function detailHandler(id) {
+        alert(id)
+        window.Ewin.dialog({title:"消费记录",url:"card/detailPage?id="+id,width:600,height:600});
+    }
+</script>
+</body>
+</html>
