@@ -1,12 +1,12 @@
-package com.onecard.system.suppermarket.service;
+package com.onecard.system.supermarket.service;
 
 import com.huaying.framework.response.BaseResponse;
 import com.huaying.framework.response.CommonSuccessResponse;
 import com.huaying.framework.utils.StringUtils;
-import com.onecard.system.suppermarket.entity.Supplier;
-import com.onecard.system.suppermarket.entity.User;
-import com.onecard.system.suppermarket.repo.SupplierRepo;
-import com.onecard.system.suppermarket.repo.UserRepo;
+import com.onecard.system.supermarket.entity.Supplier;
+import com.onecard.system.supermarket.entity.User;
+import com.onecard.system.supermarket.repo.SupplierRepo;
+import com.onecard.system.supermarket.repo.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

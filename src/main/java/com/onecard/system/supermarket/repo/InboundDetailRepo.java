@@ -1,6 +1,6 @@
-package com.onecard.system.suppermarket.repo;
+package com.onecard.system.supermarket.repo;
 
-import com.onecard.system.suppermarket.entity.InboundDetail;
+import com.onecard.system.supermarket.entity.InboundDetail;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

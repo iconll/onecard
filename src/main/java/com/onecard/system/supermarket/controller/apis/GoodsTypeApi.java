@@ -1,45 +1,59 @@
 package com.onecard.system.supermarket.controller.apis;
 
-import com.alibaba.fastjson.JSONArray;
+import com.huaying.framework.annotation.AComment;
 import com.huaying.framework.response.BaseJsonResponse;
-import com.onecard.system.supermarket.entity.GoodsType;
+import com.huaying.framework.response.BaseResponse;
+import com.onecard.system.supermarket.form.GoodsTypeForm;
 import com.onecard.system.supermarket.service.GoodsTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+import java.util.HashMap;
+import java.util.Map;
+
+@RestController
 @RequestMapping("/apis/goodsType")
-public class GoodsTypeController {
+public class GoodsTypeApi {
 
     @Autowired
     GoodsTypeService goodsTypeService;
 
-    /**
-     * 功能描述：直接跳转到更新数据的页面
-     * @param id
-     * @return
-     */
-    @RequestMapping(value = "/updatePage",method = RequestMethod.GET,produces = MediaType.APPLICATION_JSON_VALUE)
-    public String updatePage(Integer id, Model model) throws Exception{
-        BaseJsonResponse response = (BaseJsonResponse)goodsTypeService.get(id);
-        GoodsType goodsType = (GoodsType)response.getDataResult();
-        model.addAttribute("entity",goodsType);
-        return "supermarket/goodstype/update";
+    @PostMapping("/list")
+    @AComment(comment = "商品类型-列表查询")
+    public Map list(String name, Integer page, Integer limit) {
+        Map<String,Object> result = new HashMap<>();
+        BaseJsonResponse response = (BaseJsonResponse)goodsTypeService.findByName(name, new PageRequest(page-1, limit));
+        result.put("totalCount",response.getTotalRows());
+        result.put("result",response.getDataResult());
+        return result;
     }
 
-    /** 跳转到添加对象页面
-     * @throws Exception
-     */
-    @RequestMapping(value="/addPage")
-    public String addPage(Model model) throws Exception{
-        BaseJsonResponse response = (BaseJsonResponse)goodsTypeService.getAll();
-        JSONArray ja = (JSONArray)response.getDataResult();
-        model.addAttribute("goodsTypeList", ja);
-        return "supermarket/goodstype/add";
+    @PostMapping("/save")
+    @AComment(comment = "商品类型-保存")
+    public BaseResponse save(GoodsTypeForm form){
+        return goodsTypeService.save(form);
+    }
+
+    @PostMapping("/delete")
+    @AComment(comment = "商品类型-删除")
+    public BaseResponse delete(String json){
+        return goodsTypeService.delete(json);
+    }
+
+    @GetMapping("/get")
+    @AComment(comment = "商品类型-根据ID查询")
+    public BaseResponse get(Integer id){
+        return goodsTypeService.get(id);
+    }
+
+    @PostMapping("/getTree")
+    @AComment(comment = "商品类型-根据ID获取树形数据")
+    public BaseResponse getTree(Integer id){
+        return goodsTypeService.getTree(id);
     }
 
 }

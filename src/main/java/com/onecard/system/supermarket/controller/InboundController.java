@@ -1,10 +1,10 @@
-package com.onecard.system.suppermarket.controller;
+package com.onecard.system.supermarket.controller;
 
 import com.alibaba.fastjson.JSONArray;
 import com.huaying.framework.annotation.AComment;
 import com.huaying.framework.response.BaseResponse;
-import com.onecard.system.suppermarket.entity.Inbound;
-import com.onecard.system.suppermarket.service.InboundService;
+import com.onecard.system.supermarket.entity.Inbound;
+import com.onecard.system.supermarket.service.InboundService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;

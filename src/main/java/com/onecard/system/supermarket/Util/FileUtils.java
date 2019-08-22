@@ -1,4 +1,4 @@
-package com.onecard.system.suppermarket.Util;
+package com.onecard.system.supermarket.Util;
 
 import org.springframework.web.multipart.MultipartFile;
 

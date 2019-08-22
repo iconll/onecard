@@ -1,7 +1,7 @@
-package com.onecard.system.suppermarket.controller;
+package com.onecard.system.supermarket.controller;
 
-import com.onecard.system.suppermarket.entity.Card;
-import com.onecard.system.suppermarket.service.CardService;
+import com.onecard.system.supermarket.entity.Card;
+import com.onecard.system.supermarket.service.CardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

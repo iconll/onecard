@@ -1,8 +1,8 @@
-package com.onecard.system.suppermarket.controller;
+package com.onecard.system.supermarket.controller;
 
 import com.huaying.framework.annotation.AComment;
 import com.huaying.framework.response.BaseResponse;
-import com.onecard.system.suppermarket.service.InboundDetailService;
+import com.onecard.system.supermarket.service.InboundDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

@@ -1,4 +1,4 @@
-package com.onecard.system.suppermarket.service;
+package com.onecard.system.supermarket.service;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -6,13 +6,13 @@ import com.huaying.framework.response.BaseResponse;
 import com.huaying.framework.response.CommonSuccessResponse;
 import com.huaying.framework.utils.DateUtil;
 import com.huaying.framework.utils.StringUtils;
-import com.onecard.system.suppermarket.entity.Goods;
-import com.onecard.system.suppermarket.entity.Inbound;
-import com.onecard.system.suppermarket.entity.InboundDetail;
-import com.onecard.system.suppermarket.repo.GoodsRepo;
-import com.onecard.system.suppermarket.repo.InboundDetailRepo;
-import com.onecard.system.suppermarket.repo.InboundRepo;
-import com.onecard.system.suppermarket.repo.SupplierRepo;
+import com.onecard.system.supermarket.entity.Goods;
+import com.onecard.system.supermarket.entity.Inbound;
+import com.onecard.system.supermarket.entity.InboundDetail;
+import com.onecard.system.supermarket.repo.GoodsRepo;
+import com.onecard.system.supermarket.repo.InboundDetailRepo;
+import com.onecard.system.supermarket.repo.InboundRepo;
+import com.onecard.system.supermarket.repo.SupplierRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

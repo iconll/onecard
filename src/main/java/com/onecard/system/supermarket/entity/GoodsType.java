@@ -1,4 +1,4 @@
-package com.onecard.system.suppermarket.entity;
+package com.onecard.system.supermarket.entity;
 
 import java.io.Serializable;
 
@@ -13,6 +13,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.JoinColumn;
 import javax.persistence.FetchType;
 import java.util.Date;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.OneToMany;
 import java.util.Set;

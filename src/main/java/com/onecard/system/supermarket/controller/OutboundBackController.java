@@ -1,9 +1,9 @@
-package com.onecard.system.suppermarket.controller;
+package com.onecard.system.supermarket.controller;
 
 import com.huaying.framework.annotation.AComment;
 import com.huaying.framework.response.BaseResponse;
-import com.onecard.system.suppermarket.entity.OutboundBack;
-import com.onecard.system.suppermarket.service.OutboundBackService;
+import com.onecard.system.supermarket.entity.OutboundBack;
+import com.onecard.system.supermarket.service.OutboundBackService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;

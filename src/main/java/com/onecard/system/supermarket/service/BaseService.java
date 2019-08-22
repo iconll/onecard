@@ -1,4 +1,4 @@
-package com.onecard.system.suppermarket.service;
+package com.onecard.system.supermarket.service;
 
 import com.huaying.framework.response.BaseJsonResponse;
 import com.huaying.framework.response.BaseResponse;

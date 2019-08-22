@@ -1,10 +1,10 @@
-package com.onecard.system.suppermarket.controller;
+package com.onecard.system.supermarket.controller;
 
 import com.huaying.framework.response.BaseJsonResponse;
 import com.huaying.framework.response.BaseResponse;
 import com.huaying.framework.response.CommonErrorResponse;
 import com.huaying.framework.utils.StringUtils;
-import com.onecard.system.suppermarket.Util.FileUtils;
+import com.onecard.system.supermarket.Util.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.web.bind.annotation.RequestMapping;

@@ -1,4 +1,4 @@
-package com.onecard.system.suppermarket.entity;
+package com.onecard.system.supermarket.entity;
 
 import java.io.Serializable;
 import java.math.BigInteger;

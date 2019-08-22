@@ -36,7 +36,7 @@
 
     function initTable(){
         $('#goodsType-table').bootstrapTable({
-            url:"goodsType/list",
+            url:"apis/goodsType/list",
             height: $(window.parent.document).find("#wrapper").height() - 252,
             width:$(window).width(),
             showColumns:true,
@@ -50,7 +50,7 @@
                     text: '添加',
                     iconCls: 'glyphicon glyphicon-plus',
                     handler: function () {
-                        window.Ewin.dialog({title:"添加",url:"goodstype/addPage",width:600,height:310})
+                        window.Ewin.dialog({title:"添加",url:"goodsType/addPage",width:600,height:310})
                     }
                 },
                 {
@@ -62,7 +62,7 @@
                             window.Ewin.alert({message:'请选择一条需要修改的数据!'});
                             return false;
                         }
-                        window.Ewin.dialog({title:"修改",url:"goodstype/updatePage?id="+rows[0].id,width:600,height:310});
+                        window.Ewin.dialog({title:"修改",url:"goodsType/updatePage?id="+rows[0].id,width:600,height:310});
                     }
                 },
                 {
@@ -76,10 +76,12 @@
                         }
                         window.Ewin.confirm({title:'提示',message:'是否要删除您所选择的记录？',width:500}).on(function (e) {
                             if (e) {
-                                $.post("goodstype/removeBath",{json:JSON.stringify(rows)},function(e){
-                                    if(e.result){
-                                        window.Ewin.alert({message:e.msg});
+                                $.post("apis/goodsType/delete",{json:JSON.stringify(rows)},function(e){
+                                    if(e.success){
+                                        window.Ewin.alert("删除成功！");
                                         doQuery();
+                                    }else{
+                                        window.Ewin.alert("删除失败："+e.message);
                                     }
                                 });
                             }

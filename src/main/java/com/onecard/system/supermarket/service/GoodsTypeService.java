@@ -1,10 +1,13 @@
-package com.onecard.system.suppermarket.service;
+package com.onecard.system.supermarket.service;
 
+import com.alibaba.fastjson.JSONObject;
 import com.huaying.framework.response.BaseResponse;
 import com.huaying.framework.response.CommonSuccessResponse;
 import com.huaying.framework.utils.StringUtils;
-import com.onecard.system.suppermarket.entity.GoodsType;
-import com.onecard.system.suppermarket.repo.GoodsTypeRepo;
+import com.onecard.system.supermarket.entity.GoodsType;
+import com.onecard.system.supermarket.form.GoodsTypeForm;
+import com.onecard.system.supermarket.repo.GoodsTypeRepo;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -32,10 +35,14 @@ public class GoodsTypeService extends BaseService{
 
     /**
      * 保存商品类型
-     * @param goodsType
+     * @param form
      * @return
      */
-    public BaseResponse save(GoodsType goodsType){
+    public BaseResponse save(GoodsTypeForm form){
+        GoodsType goodsType = new GoodsType();
+        BeanUtils.copyProperties(form, goodsType);
+        GoodsType parent = goodsTypeRepo.findOne(form.getPid());
+        goodsType.setGoodsType(parent);
         if(goodsType.getId()==null){
             goodsType.setCreateTime(new Date());
         }else{
@@ -44,6 +51,14 @@ public class GoodsTypeService extends BaseService{
         }
         GoodsType gd = goodsTypeRepo.save(goodsType);
         return returnSave(gd, false);
+    }
+
+    /**
+     * 查询所有分类
+     * @return
+     */
+    public BaseResponse getAll(){
+        return returnList(goodsTypeRepo.findAll(), false);
     }
 
     /**
@@ -59,7 +74,7 @@ public class GoodsTypeService extends BaseService{
         }else{
             page = goodsTypeRepo.findByName(name, pageable);
         }
-        return returnList(page, false);
+        return returnList(page, true);
     }
 
     /**
@@ -69,16 +84,17 @@ public class GoodsTypeService extends BaseService{
      */
     public BaseResponse get(Integer id){
         GoodsType goodsType = goodsTypeRepo.findOne(id);
-        return returnGet(goodsType, false);
+        return returnGet(goodsType, true);
     }
 
     /**
      * 删除商品类型
-     * @param id
+     * @param json
      * @return
      */
-    public BaseResponse delete(Integer id){
-        goodsTypeRepo.delete(id);
+    public BaseResponse delete(String json){
+        List<GoodsType> list = JSONObject.parseArray(json, GoodsType.class);
+        goodsTypeRepo.delete(list);
         return new CommonSuccessResponse();
     }
 

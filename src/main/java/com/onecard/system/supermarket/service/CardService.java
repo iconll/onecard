@@ -1,7 +1,7 @@
-package com.onecard.system.suppermarket.service;
+package com.onecard.system.supermarket.service;
 
-import com.onecard.system.suppermarket.entity.Card;
-import com.onecard.system.suppermarket.repo.CardRepo;
+import com.onecard.system.supermarket.entity.Card;
+import com.onecard.system.supermarket.repo.CardRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,6 +14,6 @@ public class CardService {
 
 
     public Card findById(Integer id) {
-        return  cardRepo.getOne(id);
+        return cardRepo.getOne(id);
     }
 }

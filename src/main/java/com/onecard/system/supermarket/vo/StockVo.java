@@ -1,6 +1,6 @@
-package com.onecard.system.suppermarket.vo;
+package com.onecard.system.supermarket.vo;
 
-import com.onecard.system.suppermarket.entity.Goods;
+import com.onecard.system.supermarket.entity.Goods;
 
 /**
  * 库存vo
