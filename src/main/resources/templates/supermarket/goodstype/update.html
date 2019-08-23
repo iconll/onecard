@@ -2,32 +2,25 @@
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <body>
 <form id="goodsTypeForm"  role="form" method="post" action="apis/goodsType/save">
-    <div class="row">
-        <div class="col-md-7">
-            <div class="form-group" >
-                <label for="name">上级类型:</label>
-                <select class="form-control" id="pid" name="pid">
-                    <option value="-1" data-name="">顶级</option>
-                    <option th:each="type:${goodsTypeList}" th:value="${type.id}" th:text="${type.name}" th:selected="${type.id==entity.goodsType.id}"></option>
-                </select>
-            </div>
-            <div class="form-group" >
-                <label for="name">名称:</label>
-                <input type="text" class="form-control" name="name" id="name"  placeholder="请输入类型名称" th:value="${entity.name}" />
-            </div>
-            <div class="form-group" >
-                <label for="code">编码:</label>
-                <input type="text" class="form-control" name="code" id="code"  placeholder="请输入类型编码" th:value="${entity.code}"/>
-                <input type="hidden" name="id" th:value="${entity.id}">
-            </div>
-        </div>
+    <div class="form-group" >
+        <label for="name">上级类型:</label>
+        <select class="form-control" id="pid" name="pid">
+            <option value="-1" data-name="">顶级</option>
+            <option th:each="type:${goodsTypeList}" th:value="${type.id}" th:text="${type.name}" th:selected="${type.id==entity.goodsType.id}"></option>
+        </select>
+    </div>
+    <div class="form-group" >
+        <label for="name">名称:</label>
+        <input type="text" class="form-control" name="name" id="name"  placeholder="请输入类型名称" th:value="${entity.name}" />
+    </div>
+    <div class="form-group" >
+        <label for="code">编码:</label>
+        <input type="text" class="form-control" name="code" id="code"  placeholder="请输入类型编码" th:value="${entity.code}"/>
+        <input type="hidden" name="id" th:value="${entity.id}">
     </div>
 </form>
 <script th:inline="javascript">
     <![CDATA[
-    $(document).ready(function () {
-        $('#type').select2();
-    });
     $(function () {
         $('#goodsTypeForm').bootstrapValidator({
             message: 'This value is not valid',

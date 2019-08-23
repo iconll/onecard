@@ -50,7 +50,7 @@
                     text: '添加',
                     iconCls: 'glyphicon glyphicon-plus',
                     handler: function () {
-                        window.Ewin.dialog({title:"添加",url:"goodsType/addPage",width:600,height:310})
+                        window.Ewin.dialog({title:"添加",url:"goodsType/addPage",width:600,height:400})
                     }
                 },
                 {
@@ -62,7 +62,7 @@
                             window.Ewin.alert({message:'请选择一条需要修改的数据!'});
                             return false;
                         }
-                        window.Ewin.dialog({title:"修改",url:"goodsType/updatePage?id="+rows[0].id,width:600,height:310});
+                        window.Ewin.dialog({title:"修改",url:"goodsType/updatePage?id="+rows[0].id,width:600,height:400});
                     }
                 },
                 {
