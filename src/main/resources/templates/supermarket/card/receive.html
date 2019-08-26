@@ -36,7 +36,7 @@
 
     function initTable(){
         $('#role-table').bootstrapTable({
-            url:"role/list",
+            url:"card/list",
             height: $(window.parent.document).find("#wrapper").height() - 252,
             width:$(window).width(),
             showColumns:true,
@@ -50,7 +50,7 @@
                     text: '添加',
                     iconCls: 'glyphicon glyphicon-plus',
                     handler: function () {
-                        window.Ewin.dialog({title:"添加",url:"role/addPage",width:600,height:310})
+                        window.Ewin.dialog({title:"添加",url:"card/addPage",width:600,height:500})
                     }
                 }
             ],
@@ -101,7 +101,7 @@
     }
     function updateHandler(id) {
         alert(id)
-        window.Ewin.dialog({title:"修改",url:"card/updatePage?id="+id,width:600,height:400});
+        window.Ewin.dialog({title:"修改",url:"card/updatePage?id="+id,width:600,height:600});
     }
     function detailHandler(id) {
         alert(id)
