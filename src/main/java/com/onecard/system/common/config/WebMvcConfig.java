@@ -77,12 +77,5 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
         //跳转到分期通基础数据统计页面
         registry.addViewController("/fqtStatisticsList").setViewName("sys/fqtBaseInfo/fqtStatisticsList");
 
-        //家装分期
-        //跳转到家装分期基础数据管理页面
-        registry.addViewController("/jzBaseInfoList").setViewName("sys/jzBaseInfo/jzBaseInfoList");
-        //跳转到家装分期额度有效期预警页面
-        registry.addViewController("/jzEdsxyjList").setViewName("sys/jzBaseInfo/jzEdsxyjList");
-        //跳转到家装分期基础数据统计页面
-        registry.addViewController("/jzStatisticsList").setViewName("sys/jzBaseInfo/jzStatisticsList");
     }
 }
