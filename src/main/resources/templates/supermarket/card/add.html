@@ -4,23 +4,23 @@
 <form id="roleForm"  role="form" method="post" action="card/save">
     <div class="row">
         <div class="col-md-7">
-            <input type="hidden" name="id" id="id" th:value="${entity.id}"/>
+            <input type="hidden" name="id" id="id"/>
             <input type="hidden" name="type" id="type" value="3"/>
             <div class="form-group" >
                 <label for="cardNo">卡编号:</label>
-                <input type="text" class="form-control" name="cardNo" id="cardNo" th:value="${entity.cardNo}" />
+                <input type="text" class="form-control" name="cardNo" id="cardNo" placeholder="请输入卡编号" />
             </div>
             <div class="form-group" >
                 <label for="balance">卡余额:</label>
-                <input type="text" class="form-control" name="balance" id="balance" th:value="${entity.balance}" />
+                <input type="text" class="form-control" name="balance" id="balance" placeholder="请输入卡余额" />
             </div>
             <div class="form-group" >
                 <label for="name">持卡人:</label>
-                <input type="text" class="form-control" name="name" id="name" th:value="${entity.name}" />
+                <input type="text" class="form-control" name="name" id="name" placeholder="请输入持卡人姓名" />
             </div>
             <div class="form-group">
                 <label for="status">卡状态:</label>
-                <select name="status" id="status" class="form-control" th:value="${entity.status}">
+                <select name="state" id="status" class="form-control">
                     <option th:value="1">正常</option>
                     <option th:value="0">禁用</option>
                     <option th:value="-1">挂失</option>
