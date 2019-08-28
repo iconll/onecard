@@ -60,6 +60,8 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
 
         // 跳转到管理分类
         registry.addViewController("/goodstype").setViewName("supermarket/goodstype/GoodsType");
+        // 跳转到商品信息
+        registry.addViewController("/goods").setViewName("supermarket/goods/Goods");
         // 跳转到入库管理
         registry.addViewController("/storageManagement").setViewName("supermarket/storageManagement/StorageManagement");
         // 跳转到退货管理

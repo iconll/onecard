@@ -21,50 +21,6 @@
     </table>
 </div>
 <script th:inline="javascript">
-
-    $(function(){
-        $("#startTime").datetimepicker({
-            bootcssVer:3,
-            format: 'yyyy-mm-dd',
-            minView: 'month',//设置时间选择为年月日 去掉时分秒选择
-            todayBtn: true,
-            language: 'zh-CN',
-            autoclose: true, //当选择一个日期之后是否立即关闭此日期时间选择器。
-            keyboardNavigation: true, //是否允许通过方向键改变日期。
-            forceParse: true, //当选择器关闭的时候，是否强制解析输入框中的值。
-            todayHighlight: 1  //如果为true, 高亮当前日期
-        }).on("click", function () {
-            //設置可选的最后日期為當前日期
-            $("#startTime").datetimepicker("setEndDate", getToday())
-        });
-    });
-    $(function(){
-        $("#endTime").datetimepicker({
-            bootcssVer:3,
-            format: 'yyyy-mm-dd',
-            minView: 'month',//设置时间选择为年月日 去掉时分秒选择
-            todayBtn: true,
-            language: 'zh-CN',
-            autoclose: true, //当选择一个日期之后是否立即关闭此日期时间选择器。
-            keyboardNavigation: true, //是否允许通过方向键改变日期。
-            forceParse: true, //当选择器关闭的时候，是否强制解析输入框中的值。
-            todayHighlight: 1  //如果为true, 高亮当前日期
-        }).on("click", function () {
-            //設置可选的最后日期為當前日期
-            $("#endTime").datetimepicker("setEndDate", getToday())
-        });
-    });
-    //獲取當前日期
-    function getToday(){
-        var today = new Date()
-        var year = today.getFullYear();
-        var month = today.getMonth() + 1;
-        var day = today.getDate();
-        var todayStr = year+"-"+month+"-"+day;
-        return todayStr;
-    }
-
-
     $(function () {
         initTable();
         //处理表头和内容对不齐
@@ -93,7 +49,7 @@
                     text: '添加',
                     iconCls: 'glyphicon glyphicon-plus',
                     handler: function () {
-                        window.Ewin.dialog({title: "添加", url: "goodstype/addPage", width: 600, height: 310})
+                        window.Ewin.dialog({title: "创建", url: "supplierManagement/addPage", width: 600, height: 700})
                     }
                 },
                 {
@@ -147,8 +103,29 @@
                     }
                 },
                 {
-                    field: 'supply',
-                    title: '供应商',
+                    field: 'supplyNum',
+                    title: '供应商编码',
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: true
+                },
+                {
+                    field: 'supplyName',
+                    title: '供应商名称',
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: true
+                },
+                {
+                    field: 'supplyShop',
+                    title: '供应商品',
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: true
+                },
+                {
+                    field: 'linkman',
+                    title: '联系人',
                     align: 'center',
                     valign: 'middle',
                     sortable: true
@@ -162,7 +139,7 @@
                 },
                 {
                     field: 'contact',
-                    title: '联系方式',
+                    title: '联系电话',
                     align: 'center',
                     valign: 'middle',
                     sortable: true
@@ -177,13 +154,6 @@
                 {
                     field: 'email',
                     title: '邮箱',
-                    align: 'center',
-                    valign: 'middle',
-                    sortable: true
-                },
-                {
-                    field: 'operate',
-                    title: '操作',
                     align: 'center',
                     valign: 'middle',
                     sortable: true

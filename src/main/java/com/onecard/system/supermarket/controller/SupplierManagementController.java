@@ -15,51 +15,50 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/goods")
-public class GoodsController {
+@RequestMapping("/supplierManagement")
+public class SupplierManagementController {
 
-    @Autowired
-    GoodsService goodsService;
+    /*@Autowired
+    SupplierManagementService supplierManagementService;
 
     @PostMapping("/list")
     @AComment(comment = "商品-列表查询")
     public BaseResponse list(String name, String code, Integer goodsTypeId, Integer pageNo, Integer pageSize) {
-        return goodsService.list(name, code, goodsTypeId, pageNo-1, pageSize);
+        return supplierManagementService.list(name, code, goodsTypeId, pageNo-1, pageSize);
     }
 
     @PostMapping("/save")
     @AComment(comment = "商品-保存")
     public BaseResponse save(Goods goods, Integer goodsTypeId, Integer merchantUserId){
-        return goodsService.save(goods,goodsTypeId,merchantUserId);
+        return supplierManagementService.save(goods,goodsTypeId,merchantUserId);
     }
 
     @GetMapping("/delete")
     @AComment(comment = "商品-删除")
     public BaseResponse delete(Integer id){
-        return goodsService.delete(id);
+        return supplierManagementService.delete(id);
     }
 
     @GetMapping("/get")
     @AComment(comment = "商品-根据ID查询")
     public BaseResponse get(Integer id){
-        return goodsService.get(id);
+        return supplierManagementService.get(id);
     }
 
     @GetMapping("/queryByCode")
     @AComment(comment = "商品-根据商品编码查询")
     public BaseResponse queryByCode(String code){
-        return goodsService.queryByCode(code);
+        return supplierManagementService.queryByCode(code);
     }
 
     @GetMapping("/getStock")
     @AComment(comment = "商品-库存查询")
     public BaseResponse getStock(String name, String code, Integer pageNo, Integer pageSize){
-        return goodsService.getStock(name, code, new PageRequest(pageNo-1, pageSize));
-    }
+        return supplierManagementService.getStock(name, code, new PageRequest(pageNo-1, pageSize));
+    }*/
 
     @RequestMapping(value="/addPage")
     public String addPage(Model model) throws Exception{
-        return "supermarket/goods/add";
+        return "supermarket/supplierManagement/add";
     }
-
 }

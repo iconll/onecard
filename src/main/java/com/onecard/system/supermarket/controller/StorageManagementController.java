@@ -15,51 +15,54 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/goods")
-public class GoodsController {
+@RequestMapping("/storageManagement")
+public class StorageManagementController {
 
-    @Autowired
-    GoodsService goodsService;
+    /*@Autowired
+    StorageManagementService storageManagementService;
 
     @PostMapping("/list")
     @AComment(comment = "商品-列表查询")
     public BaseResponse list(String name, String code, Integer goodsTypeId, Integer pageNo, Integer pageSize) {
-        return goodsService.list(name, code, goodsTypeId, pageNo-1, pageSize);
+        return storageManagementService.list(name, code, goodsTypeId, pageNo-1, pageSize);
     }
 
     @PostMapping("/save")
     @AComment(comment = "商品-保存")
     public BaseResponse save(Goods goods, Integer goodsTypeId, Integer merchantUserId){
-        return goodsService.save(goods,goodsTypeId,merchantUserId);
+        return storageManagementService.save(goods,goodsTypeId,merchantUserId);
     }
 
     @GetMapping("/delete")
     @AComment(comment = "商品-删除")
     public BaseResponse delete(Integer id){
-        return goodsService.delete(id);
+        return storageManagementService.delete(id);
     }
 
     @GetMapping("/get")
     @AComment(comment = "商品-根据ID查询")
     public BaseResponse get(Integer id){
-        return goodsService.get(id);
+        return storageManagementService.get(id);
     }
 
     @GetMapping("/queryByCode")
     @AComment(comment = "商品-根据商品编码查询")
     public BaseResponse queryByCode(String code){
-        return goodsService.queryByCode(code);
+        return storageManagementService.queryByCode(code);
     }
 
     @GetMapping("/getStock")
     @AComment(comment = "商品-库存查询")
     public BaseResponse getStock(String name, String code, Integer pageNo, Integer pageSize){
-        return goodsService.getStock(name, code, new PageRequest(pageNo-1, pageSize));
-    }
+        return storageManagementService.getStock(name, code, new PageRequest(pageNo-1, pageSize));
+    }*/
 
     @RequestMapping(value="/addPage")
     public String addPage(Model model) throws Exception{
-        return "supermarket/goods/add";
+        return "supermarket/storageManagement/add";
     }
-
+    @RequestMapping(value="/lookPage")
+    public String lookPage(Model model) throws Exception{
+        return "supermarket/storageManagement/ProductDetails";
+    }
 }

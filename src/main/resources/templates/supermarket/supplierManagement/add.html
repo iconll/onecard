@@ -1,45 +1,41 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <body>
-<form id="roleForm"  role="form" method="post" action="role/save">
+<form id="roleForm"  role="form" method="post" action="supplierManagement/save">
     <div class="row">
-        <div class="col-md-7">
+        <div class="col-md-12">
             <div class="form-group" >
-                <label for="roleName">商品名称:</label>
-                <input type="text" class="form-control" name="roleName" id="roleName"  placeholder="请输入商品名称" />
+                <label for="Name">供应商名称:</label>
+                <input type="text" class="form-control" name="Name" id="Name"  placeholder="请输入供应商名称" />
             </div>
             <div class="form-group" >
-                <label for="name">编码:</label>
-                <input type="text" class="form-control" name="name" id="name"  placeholder="请输入编码" />
-            </div>
-            <!--<div class="form-group" >
-                <label for="price">单价:</label>
-                <input type="text" class="form-control" name="price" id="price"  placeholder="请输入单价" />
-            </div>
-            <div class="form-group" >
-                <label for="unit">单位:</label>
-                <input type="text" class="form-control" name="unit" id="unit"  placeholder="请输入单位" />
+                <label for="Name0">供应商:</label>
+                <select id="Name0" class="form-control" οnchange="selectOnchang(this)">
+                    <option>优泰</option>
+                    <option>华科</option>
+                    <option>建投</option>
+                </select>
             </div>
             <div class="form-group" >
-                <label for="specification">规格:</label>
-                <input type="text" class="form-control" name="specification" id="specification"  placeholder="请输入规格" />
+                <label for="Name1">联系人:</label>
+                <input type="text" class="form-control" name="Name1" id="Name1"  placeholder="请输入联系人" />
             </div>
             <div class="form-group" >
-                <label for="Taxrate">税率:</label>
-                <input type="text" class="form-control" name="Taxrate" id="Taxrate"  placeholder="请输入税率" />
+                <label for="Name2">地址:</label>
+                <input type="text" class="form-control" name="Name2" id="Name2"  placeholder="请输入地址" />
             </div>
             <div class="form-group" >
-                <label for="describe">描述:</label>
-                <input type="text" class="form-control" name="describe" id="describe"  placeholder="请输入描述" />
+                <label for="Name3">联系电话:</label>
+                <input type="text" class="form-control" name="Name3" id="Name3"  placeholder="请输入联系电话" />
             </div>
             <div class="form-group" >
-                <label for="operate">操作:</label>
-                <input type="text" class="form-control" name="operate" id="operate"  placeholder="请输入操作" />
-            </div>-->
-        </div>
-        <div class="col-md-5" style="margin-top: 10px;">
-            <input type="hidden" id="treeArray" name="treeArray" />
-            <ul id="roleZtree" class="ztree" style="width:200px; overflow:auto;"></ul>
+                <label for="Name4">传真:</label>
+                <input type="text" class="form-control" name="Name4" id="Name4"  placeholder="请输入传真" />
+            </div>
+            <div class="form-group" >
+                <label for="Name5">邮箱:</label>
+                <input type="text" class="form-control" name="Name5" id="Name5"  placeholder="请输入邮箱" />
+            </div>
         </div>
     </div>
 </form>

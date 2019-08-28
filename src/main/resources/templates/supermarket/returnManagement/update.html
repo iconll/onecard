@@ -1,42 +1,20 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <body>
-<form id="roleForm"  role="form" method="post" action="role/update">
+<form id="roleForm"  role="form" method="post" action="returnManagement/update">
     <div class="row">
-        <div class="col-md-7">
-            <input type="hidden" name="id" id="roleId" th:value="${entity.id}" />
+        <div class="col-md-12">
+            <!--<input type="hidden" name="id" id="roleId" th:value="${entity.id}" />-->
             <div class="form-group" >
-                <label for="roleName">商品名称:</label>
-                <input type="text" class="form-control" name="roleName" id="roleName" th:value="${entity.roleName}"  placeholder="请输入权限名称" />
+                <label for="name">退货数量:</label>
+                <input type="text" class="form-control" name="name" id="name" th:value="${entity.name}"  placeholder="请输入退货数量" />
+               <!-- <input type="text" class="form-control" name="name" id="name"   placeholder="请输入退货数量" />-->
             </div>
             <div class="form-group" >
-                <label for="name">编码:</label>
-                <input type="text" class="form-control" name="name" id="name" th:value="${entity.name}"  placeholder="请输入权限编码" />
+                <label for="roleName">备注:</label>
+                <input type="text" class="form-control" name="roleName" id="roleName"  th:value="${entity.roleName}"  placeholder="请输入备注" />
+                <!--<input type="text" class="form-control" name="roleName" id="roleName"   placeholder="请输入备注" />-->
             </div>
-            <div class="form-group" >
-                <label for="price">单价:</label>
-                <input type="text" class="form-control" name="price" id="price" th:value="${entity.price}"  placeholder="请输入权限单价" />
-            </div>
-            <div class="form-group" >
-                <label for="unit">单位:</label>
-                <input type="text" class="form-control" name="unit" id="unit" th:value="${entity.unit}"  placeholder="请输入权限单位" />
-            </div>
-            <div class="form-group" >
-                <label for="specification">规格:</label>
-                <input type="text" class="form-control" name="roleName" id="specification" th:value="${entity.specification}"  placeholder="请输入权限规格" />
-            </div>
-            <div class="form-group" >
-                <label for="Taxrate">税率:</label>
-                <input type="text" class="form-control" name="Taxrate" id="Taxrate" th:value="${entity.Taxrate}"  placeholder="请输入权限税率" />
-            </div>
-            <div class="form-group" >
-                <label for="describe">描述:</label>
-                <input type="text" class="form-control" name="describe" id="describe" th:value="${entity.describe}"  placeholder="请输入权限税率" />
-            </div>
-        </div>
-        <div class="col-md-5" style="margin-top: 10px;">
-            <input type="hidden" id="treeArray" name="treeArray" />
-            <ul id="roleZtree" class="ztree" style="width:200px; overflow:auto;"></ul>
         </div>
     </div>
 </form>
@@ -51,138 +29,25 @@
                 validating: 'glyphicon glyphicon-refresh'
             },
             fields: {
-                roleName:{
-                    message: '角色名称验证失败',
+                name: {
+                    message: '退货数量验证失败',
                     validators: {
                         notEmpty: {
-                            message: '角色名称不能为空'
+                            message: '退货数量不能为空'
+                        },
+                        threshold :  2 , //有6字符以上才发送ajax请求，（input中输入一个字符，插件会向服务器发送一次，设置限制，6字符以上才开始）
+                        remote: {//ajax验证。server result:{"valid",true or false} 向服务发送当前input name值，获得一个json数据。例表示正确：{"valid",true}
+                            url: "role/isExist",//验证地址
+                            data:function(validator) {// 获取需要传送到后台的验证的数据
+                                return {
+                                    message: '',
+                                    name:$("#name").val(),
+                                    id:$("#roleId").val()
+                                }
+                            },
+                            delay :  500,//每输入一个字符，就发ajax请求，服务器压力还是太大，设置2秒发送一次ajax（默认输入一个字符，提交一次，服务器压力太大）
+                            type: 'POST'//请求方式
                         }
-                    }
-                }
-            },
-            name: {
-                message: '角色代码验证失败',
-                validators: {
-                    notEmpty: {
-                        message: '角色代码不能为空'
-                    },
-                    threshold :  2 , //有6字符以上才发送ajax请求，（input中输入一个字符，插件会向服务器发送一次，设置限制，6字符以上才开始）
-                    remote: {//ajax验证。server result:{"valid",true or false} 向服务发送当前input name值，获得一个json数据。例表示正确：{"valid",true}
-                        url: "role/isExist",//验证地址
-                        data:function(validator) {// 获取需要传送到后台的验证的数据
-                            return {
-                                name:$("#name").val(),
-                                id:$("#roleId").val()
-                            }
-                        },
-                        message: '角色代码已存在',//提示消息
-                        delay :  500,//每输入一个字符，就发ajax请求，服务器压力还是太大，设置2秒发送一次ajax（默认输入一个字符，提交一次，服务器压力太大）
-                        type: 'POST'//请求方式
-                    }
-                }
-            },
-            price: {
-                message: '角色代码验证失败',
-                validators: {
-                    notEmpty: {
-                        message: '角色代码不能为空'
-                    },
-                    threshold :  2 , //有6字符以上才发送ajax请求，（input中输入一个字符，插件会向服务器发送一次，设置限制，6字符以上才开始）
-                    remote: {//ajax验证。server result:{"valid",true or false} 向服务发送当前input name值，获得一个json数据。例表示正确：{"valid",true}
-                        url: "role/isExist",//验证地址
-                        data:function(validator) {// 获取需要传送到后台的验证的数据
-                            return {
-                                name:$("#name").val(),
-                                id:$("#roleId").val()
-                            }
-                        },
-                        message: '角色代码已存在',//提示消息
-                        delay :  500,//每输入一个字符，就发ajax请求，服务器压力还是太大，设置2秒发送一次ajax（默认输入一个字符，提交一次，服务器压力太大）
-                        type: 'POST'//请求方式
-                    }
-                }
-            },
-            unit: {
-                message: '角色代码验证失败',
-                validators: {
-                    notEmpty: {
-                        message: '角色代码不能为空'
-                    },
-                    threshold :  2 , //有6字符以上才发送ajax请求，（input中输入一个字符，插件会向服务器发送一次，设置限制，6字符以上才开始）
-                    remote: {//ajax验证。server result:{"valid",true or false} 向服务发送当前input name值，获得一个json数据。例表示正确：{"valid",true}
-                        url: "role/isExist",//验证地址
-                        data:function(validator) {// 获取需要传送到后台的验证的数据
-                            return {
-                                name:$("#name").val(),
-                                id:$("#roleId").val()
-                            }
-                        },
-                        message: '角色代码已存在',//提示消息
-                        delay :  500,//每输入一个字符，就发ajax请求，服务器压力还是太大，设置2秒发送一次ajax（默认输入一个字符，提交一次，服务器压力太大）
-                        type: 'POST'//请求方式
-                    }
-                }
-            },
-            specification: {
-                message: '角色代码验证失败',
-                validators: {
-                    notEmpty: {
-                        message: '角色代码不能为空'
-                    },
-                    threshold :  2 , //有6字符以上才发送ajax请求，（input中输入一个字符，插件会向服务器发送一次，设置限制，6字符以上才开始）
-                    remote: {//ajax验证。server result:{"valid",true or false} 向服务发送当前input name值，获得一个json数据。例表示正确：{"valid",true}
-                        url: "role/isExist",//验证地址
-                        data:function(validator) {// 获取需要传送到后台的验证的数据
-                            return {
-                                name:$("#name").val(),
-                                id:$("#roleId").val()
-                            }
-                        },
-                        message: '角色代码已存在',//提示消息
-                        delay :  500,//每输入一个字符，就发ajax请求，服务器压力还是太大，设置2秒发送一次ajax（默认输入一个字符，提交一次，服务器压力太大）
-                        type: 'POST'//请求方式
-                    }
-                }
-            },
-            Taxrate: {
-                message: '角色代码验证失败',
-                validators: {
-                    notEmpty: {
-                        message: '角色代码不能为空'
-                    },
-                    threshold :  2 , //有6字符以上才发送ajax请求，（input中输入一个字符，插件会向服务器发送一次，设置限制，6字符以上才开始）
-                    remote: {//ajax验证。server result:{"valid",true or false} 向服务发送当前input name值，获得一个json数据。例表示正确：{"valid",true}
-                        url: "role/isExist",//验证地址
-                        data:function(validator) {// 获取需要传送到后台的验证的数据
-                            return {
-                                name:$("#name").val(),
-                                id:$("#roleId").val()
-                            }
-                        },
-                        message: '角色代码已存在',//提示消息
-                        delay :  500,//每输入一个字符，就发ajax请求，服务器压力还是太大，设置2秒发送一次ajax（默认输入一个字符，提交一次，服务器压力太大）
-                        type: 'POST'//请求方式
-                    }
-                }
-            },
-            describe: {
-                message: '角色代码验证失败',
-                validators: {
-                    notEmpty: {
-                        message: '角色代码不能为空'
-                    },
-                    threshold :  2 , //有6字符以上才发送ajax请求，（input中输入一个字符，插件会向服务器发送一次，设置限制，6字符以上才开始）
-                    remote: {//ajax验证。server result:{"valid",true or false} 向服务发送当前input name值，获得一个json数据。例表示正确：{"valid",true}
-                        url: "role/isExist",//验证地址
-                        data:function(validator) {// 获取需要传送到后台的验证的数据
-                            return {
-                                name:$("#name").val(),
-                                id:$("#roleId").val()
-                            }
-                        },
-                        message: '角色代码已存在',//提示消息
-                        delay :  500,//每输入一个字符，就发ajax请求，服务器压力还是太大，设置2秒发送一次ajax（默认输入一个字符，提交一次，服务器压力太大）
-                        type: 'POST'//请求方式
                     }
                 }
             }
@@ -227,6 +92,7 @@
                 return false;
             }
         });
+
 
         var setting = {
             check: {

@@ -12,10 +12,6 @@
                     <input type="text" class="form-control" name="name" id="name"  placeholder="请输入商品类别" />
                 </div>
                 <div class="form-group">
-                    <label for="roleName">商品名称:</label>
-                    <input type="text" class="form-control" name="roleName" id="roleName"  placeholder="请输入商品名称" />
-                </div>
-                <div class="form-group">
                     <button type="button" id="queryBtn" onclick="doQuery();" class="btn btn-primary">搜索</button>
                 </div>
             </form>
@@ -40,7 +36,7 @@
 
     function initTable(){
         $('#role-table').bootstrapTable({
-            url:"role/list",
+            url:"goodsType/list",
             height: $(window.parent.document).find("#wrapper").height() - 252,
             width:$(window).width(),
             showColumns:true,
@@ -51,10 +47,10 @@
             pageSize : 10,
             toolbars:[
                 {
-                    text: '添加',
+                    text: '新增分类',
                     iconCls: 'glyphicon glyphicon-plus',
                     handler: function () {
-                        window.Ewin.dialog({title:"添加",url:"goodstype/addPage",width:600,height:310})
+                        window.Ewin.dialog({title:"新增分类",url:"goodsType/addPage",width:600,height:310})
                     }
                 },
                 {
@@ -103,59 +99,20 @@
                     }
                 },
                 {
+                    field : 'classify',
+                    title : '分类ID',
+                    align : 'center',
+                    valign : 'middle',
+                    sortable : true
+                },
+                {
                     field : 'roleName',
-                    title : '盘点单号',
-                    align : 'center',
-                    valign : 'middle'
-                },
-                {
-                    field : 'total',
-                    title : '入库总数',
+                    title : '商品分类',
                     align : 'center',
                     valign : 'middle',
-                    sortable : true
-                },
-                {
-                    field : 'price',
-                    title : '单价',
-                    align : 'center',
-                    valign : 'middle',
-                    sortable : true
-                },
-                {
-                    field : 'unit',
-                    title : '单位',
-                    align : 'center',
-                    valign : 'middle',
-                    sortable : true
-                },
-                {
-                    field : 'specification',
-                    title : '规格',
-                    align : 'center',
-                    valign : 'middle',
-                    sortable : true
-                },
-                {
-                    field : 'Taxrate',
-                    title : '税率',
-                    align : 'center',
-                    valign : 'middle',
-                    sortable : true
-                },
-                {
-                    field : 'describe',
-                    title : '描述',
-                    align : 'center',
-                    valign : 'middle',
-                    sortable : true
-                },
-                {
-                    field : 'operate',
-                    title : '操作',
-                    align : 'center',
-                    valign : 'middle',
-                    sortable : true
+                    formatter: function (value, row, index) {
+                        return getCodeDictText("DICT_IS_LOAD",value);
+                    }
                 }
                 ],
             onPostHeader:function(){
