@@ -34,7 +34,6 @@ public class MyAuthenticationSuccessHandler implements AuthenticationSuccessHand
 
     private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
-    @Autowired
     private UserDao userDao;
 
     @Override
