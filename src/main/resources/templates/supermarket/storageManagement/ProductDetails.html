@@ -96,6 +96,9 @@
         $('#role-table').bootstrapTable('refresh');    //刷新表格
     }
 
+    function addQuery() {
+        window.Ewin.dialog({title: "添加", url: "storageManagement/addPage_0", width: 600, height: 450})
+    }
     function initTable() {
         $('#role-table').bootstrapTable({
             url: "role/list",
@@ -117,7 +120,7 @@
                             window.Ewin.alert({message:'请选择一条需要修改的数据!'});
                             return false;
                         }
-                        window.Ewin.dialog({title:"修改",url:"role/updatePage?id="+rows[0].id,width:600,height:310});
+                        window.Ewin.dialog({title:"修改",url:"storageManagement/updatePage?id="+rows[0].id,width:600,height:380});
                     }
                 },
                 {

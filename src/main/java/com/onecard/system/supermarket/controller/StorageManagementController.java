@@ -65,4 +65,12 @@ public class StorageManagementController {
     public String lookPage(Model model) throws Exception{
         return "supermarket/storageManagement/ProductDetails";
     }
+    @RequestMapping(value="/addPage_0")
+    public String addPage_0(Model model) throws Exception{
+        return "supermarket/storageManagement/add_0";
+    }
+    @RequestMapping(value="/updatePage")
+    public String updatePage(Model model) throws Exception{
+        return "supermarket/storageManagement/update";
+    }
 }

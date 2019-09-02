@@ -1,24 +1,19 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
-<head th:include="include/includebase"></head>
 <body>
-<form id="roleForm"  role="form" method="post" action="storageManagement/save">
+<form id="roleForm"  role="form" method="post" action="storageManagement/update">
     <div class="row">
         <div class="col-md-12">
+            <!--<input type="hidden" name="id" id="roleId" th:value="${entity.id}" />-->
             <div class="form-group" >
-                <label>商品:</label>
-                <select class="form-control" οnchange="selectOnchang(this)">
-                    <option>大米</option>
-                    <option>蔬菜</option>
-                </select>
+                <label for="name">退货数量:</label>
+                <input type="text" class="form-control" name="name" id="name" th:value="${entity.name}"  placeholder="请输入退货数量" />
+                <!-- <input type="text" class="form-control" name="name" id="name"   placeholder="请输入退货数量" />-->
             </div>
             <div class="form-group" >
-                <label for="name0">数量:</label>
-                <input type="text" class="form-control" name="name0" id="name0"  placeholder="请输入数量" />
-            </div>
-            <div class="form-group" >
-                <label for="name1">单价:</label>
-                <input type="text" class="form-control" name="name1" id="name1"  placeholder="请输入单价" />
+                <label for="roleName">备注:</label>
+                <input type="text" class="form-control" name="roleName" id="roleName"  th:value="${entity.roleName}"  placeholder="请输入备注" />
+                <!--<input type="text" class="form-control" name="roleName" id="roleName"   placeholder="请输入备注" />-->
             </div>
         </div>
     </div>
@@ -35,25 +30,26 @@
             },
             fields: {
                 name: {
-                    message: '分类名称验证失败',
+                    message: '退货数量验证失败',
                     validators: {
                         notEmpty: {
-                            message: '分类名称不能为空'
+                            message: '退货数量不能为空'
                         },
                         threshold :  2 , //有6字符以上才发送ajax请求，（input中输入一个字符，插件会向服务器发送一次，设置限制，6字符以上才开始）
                         remote: {//ajax验证。server result:{"valid",true or false} 向服务发送当前input name值，获得一个json数据。例表示正确：{"valid",true}
                             url: "role/isExist",//验证地址
                             data:function(validator) {// 获取需要传送到后台的验证的数据
                                 return {
-                                    name:$("#name").val()
+                                    message: '',
+                                    name:$("#name").val(),
+                                    id:$("#roleId").val()
                                 }
                             },
-                            message: '分类名称已存在',//提示消息
                             delay :  500,//每输入一个字符，就发ajax请求，服务器压力还是太大，设置2秒发送一次ajax（默认输入一个字符，提交一次，服务器压力太大）
                             type: 'POST'//请求方式
                         }
                     }
-                },
+                }
             }
         })
 
@@ -87,9 +83,9 @@
                         $('body', window.top.document).find('.modal-backdrop').remove();
                         // jquery 调用刷新当前操作的table页面的refresh方法
                         $(window.parent.document).contents().find(".tab-pane.fade.active.in iframe")[0].contentWindow.doQuery();
-                        window.Ewin.alert({message:'增加数据成功!'});
+                        window.Ewin.alert({message:'修改数据成功!'});
                     }else{
-                        window.Ewin.alert({message:'增加数据失败!'});
+                        window.Ewin.alert({message:'修改数据失败!'});
                     }
                 })
             }else{
@@ -128,6 +124,10 @@
             }
         };
 
+        $.post("/role/loadRoleTree?id="+[[${entity.id}]],function(info){
+            var t = $("#roleZtree");
+            t = $.fn.zTree.init(t, setting,info.data);
+        })
     })
     ]]>
 </script>
