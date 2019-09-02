@@ -1,0 +1,196 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head th:include="include/includebase"></head>
+<body>
+<div class="panel-body" style="padding-bottom:0px;">
+    <div class="panel panel-default">
+        <div class="panel-heading">查询条件</div>
+        <div class="panel-body">
+            <form class="form-inline" role="form" style="float: left; width: 100%;margin-left: 20px;" method="post"
+                  id="queryRole">
+                <input type="text"  id="startTime" name="recordDate" class="form-control" placeholder="请输入开始时间"/> --
+                <input type="text"  id="endTime" name="recordDate" class="form-control" placeholder="请输入结束时间"/>
+                <div class="form-group">
+                    <input type="text" class="form-control" name="name" id="name" placeholder="请输入退货单"/>
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" name="supply" id="supply" placeholder="请输入供应商"/>
+                </div>
+                <div class="form-group">
+                    <button type="button" id="queryBtn" onclick="doQuery();" class="btn btn-primary">搜索</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <table id="role-table" style="margin-top: -50px;">
+    </table>
+</div>
+<script th:inline="javascript">
+
+    $(function(){
+        $("#startTime").datetimepicker({
+            bootcssVer:3,
+            format: 'yyyy-mm-dd',
+            minView: 'month',//设置时间选择为年月日 去掉时分秒选择
+            todayBtn: true,
+            language: 'zh-CN',
+            autoclose: true, //当选择一个日期之后是否立即关闭此日期时间选择器。
+            keyboardNavigation: true, //是否允许通过方向键改变日期。
+            forceParse: true, //当选择器关闭的时候，是否强制解析输入框中的值。
+            todayHighlight: 1  //如果为true, 高亮当前日期
+        }).on("click", function () {
+            //設置可选的最后日期為當前日期
+            $("#startTime").datetimepicker("setEndDate", getToday())
+        });
+    });
+    $(function(){
+        $("#endTime").datetimepicker({
+            bootcssVer:3,
+            format: 'yyyy-mm-dd',
+            minView: 'month',//设置时间选择为年月日 去掉时分秒选择
+            todayBtn: true,
+            language: 'zh-CN',
+            autoclose: true, //当选择一个日期之后是否立即关闭此日期时间选择器。
+            keyboardNavigation: true, //是否允许通过方向键改变日期。
+            forceParse: true, //当选择器关闭的时候，是否强制解析输入框中的值。
+            todayHighlight: 1  //如果为true, 高亮当前日期
+        }).on("click", function () {
+            //設置可选的最后日期為當前日期
+            $("#endTime").datetimepicker("setEndDate", getToday())
+        });
+    });
+    //獲取當前日期
+    function getToday(){
+        var today = new Date()
+        var year = today.getFullYear();
+        var month = today.getMonth() + 1;
+        var day = today.getDate();
+        var todayStr = year+"-"+month+"-"+day;
+        return todayStr;
+    }
+
+
+    $(function () {
+        initTable();
+        //处理表头和内容对不齐
+        $(window).resize(function () {
+            clTable();
+        });
+    });
+
+    function doQuery() {
+        $('#role-table').bootstrapTable('refresh');    //刷新表格
+    }
+
+    function initTable() {
+        $('#role-table').bootstrapTable({
+            url: "returnManagement/list",
+            height: $(window.parent.document).find("#wrapper").height() - 252,
+            width: $(window).width(),
+            showColumns: true,
+            formId: "queryRole",
+            pagination: true,
+            sortName: 'id',
+            sortOrder: 'desc',
+            pageSize: 10,
+            toolbars: [
+                {
+                    text: '撤销退货',
+                    iconCls: 'glyphicon glyphicon-pencil',
+                    handler: function () {
+                        var rows = $('#role-table').bootstrapTable('getSelections');
+                        if (rows.length == 0 || rows.length > 1) {
+                            window.Ewin.alert({message: '请选择一条需要修改的数据!'});
+                            return false;
+                        }
+                        window.Ewin.dialog({
+                            title: "撤销退货",
+                            url: "returnManagement/updatePage?id=" + rows[0].id,
+                            width: 600,
+                            height: 310
+                        });
+                    }
+                },
+                {
+                    text: '删除',
+                    iconCls: 'glyphicon glyphicon-remove',
+                    handler: function () {
+                        var rows = $('#role-table').bootstrapTable('getSelections');
+                        if (rows.length == 0) {
+                            window.Ewin.alert({message: '请选择一条需要删除的数据!'});
+                            return false;
+                        }
+                        window.Ewin.confirm({title: '提示', message: '是否要删除您所选择的记录？', width: 500}).on(function (e) {
+                            if (e) {
+                                $.post("goodstype/removeBath", {json: JSON.stringify(rows)}, function (e) {
+                                    if (e.result) {
+                                        window.Ewin.alert({message: e.msg});
+                                        doQuery();
+                                    }
+                                });
+                            }
+                        });
+                    }
+                }
+            ],
+            columns: [
+                {
+                    checkbox: true
+                },
+                {
+                    field: '',
+                    title: '序号',
+                    formatter: function (value, row, index) {
+                        return index + 1;
+                    }
+                },
+                {
+                    field: 'roleName',
+                    title: '退货单号',
+                    align: 'center',
+                    valign: 'middle'
+                },
+                {
+                    field: 'puttotal',
+                    title: '退货总数',
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: true
+                },
+                {
+                    field: 'supply',
+                    title: '供应商',
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: true
+                },
+                {
+                    field: 'time',
+                    title: '退货时间',
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: true
+                },
+                {
+                    field: 'settle',
+                    title: '退货原因',
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: true
+                },
+                {
+                    field: 'totalprice',
+                    title: '总价',
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: true
+                }
+            ],
+            onPostHeader: function () {
+                clTable();
+            }
+        });
+    }
+</script>
+</body>
+</html>

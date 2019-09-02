@@ -11,11 +11,18 @@
 	<name>onecard</name>
 	<description>餐饮超市一卡通系统</description>
 
+	<!--<parent>-->
+		<!--<groupId>org.springframework.boot</groupId>-->
+		<!--<artifactId>spring-boot-starter-parent</artifactId>-->
+		<!--<version>1.5.9.RELEASE</version>-->
+		<!--<relativePath/> &lt;!&ndash; lookup parent from repository &ndash;&gt;-->
+	<!--</parent>-->
+
+	<!-- 直接继承 我们自己定义的parent -->
 	<parent>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>1.5.9.RELEASE</version>
-		<relativePath/> <!-- lookup parent from repository -->
+		<groupId>com.kmut</groupId>
+		<artifactId>spring-boot-parent</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 
 	<properties>
@@ -208,6 +215,7 @@
 			<artifactId>springfox-swagger-ui</artifactId>
 			<version>2.6.1</version>
 		</dependency>
+
 		<dependency>
 			<groupId>com.vaadin.external.google</groupId>
 			<artifactId>android-json</artifactId>
@@ -230,6 +238,14 @@
 			<version>1.16.4</version>
 			<scope>provided</scope>
 		</dependency>
+
+		<!-- 通用工具 -->
+		<dependency>
+			<groupId>com.kmut</groupId>
+			<artifactId>commons-utils</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>
@@ -256,7 +272,13 @@
 							<artifactId>mapstruct-processor</artifactId>
 							<version>${org.mapstruct.version}</version>
 						</path>
+						<path>
+			                <groupId>org.projectlombok</groupId>
+			                <artifactId>lombok</artifactId>
+			                <version>1.16.4</version>
+			            </path>
 					</annotationProcessorPaths>
+
 				</configuration>
 			</plugin>
 		</plugins>

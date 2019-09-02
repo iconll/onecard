@@ -1,0 +1,74 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head th:include="include/includebase"></head>
+<body>
+<div class="panel-body" style="padding-bottom:0px;">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <form class="form-inline" role="form" style="float: left; width: 100%" method="post"
+                  id="queryRole">
+                <div class="form-group" style="margin-bottom: 10px">
+                    <label for="name">盘点单号:</label>
+                    <input type="text" class="form-control" name="name" id="name" placeholder="请输入盘点单号"/>
+                </div>
+                <div class="form-group" style="margin-bottom: 10px">
+                    <label for="startTime">开始时间:</label>
+                    <input type="text"  id="startTime" name="recordDate" class="form-control" placeholder="请输入开始时间"/>
+                </div>
+                <div class="form-group">
+                    <label for="name0">完成状态:</label>
+                    <select id="name0" class="form-control" οnchange="selectOnchang(this)">
+                        <option>请选择</option>
+                        <option>未完成</option>
+                        <option>已完成</option>
+                    </select>
+                </div>
+                <div class="form-group" style="margin-bottom: 10px">
+                    <label for="name1">当前进度:</label>
+                    <input type="text" class="form-control" name="nam1" id="name1" placeholder="请输入当前进度"/>
+                </div>
+                <div class="form-group">
+                    <label for="name2">总差值数:</label>
+                    <input type="text" class="form-control" name="name2" id="name2" placeholder="自动计算"/>
+                </div>
+                <div class="form-group">
+                    <label for="name3">库存状态:</label>
+                    <select id="name3" class="form-control" οnchange="selectOnchang(this)">
+                        <option>请选择</option>
+                        <option>测试数据</option>
+                    </select>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script th:inline="javascript">
+
+    $(function(){
+        $("#startTime").datetimepicker({
+            bootcssVer:3,
+            format: 'yyyy-mm-dd',
+            minView: 'month',//设置时间选择为年月日 去掉时分秒选择
+            todayBtn: true,
+            language: 'zh-CN',
+            autoclose: true, //当选择一个日期之后是否立即关闭此日期时间选择器。
+            keyboardNavigation: true, //是否允许通过方向键改变日期。
+            forceParse: true, //当选择器关闭的时候，是否强制解析输入框中的值。
+            todayHighlight: 1  //如果为true, 高亮当前日期
+        }).on("click", function () {
+            //設置可选的最后日期為當前日期
+            $("#startTime").datetimepicker("setEndDate", getToday())
+        });
+    });
+    //獲取當前日期
+    function getToday(){
+        var today = new Date()
+        var year = today.getFullYear();
+        var month = today.getMonth() + 1;
+        var day = today.getDate();
+        var todayStr = year+"-"+month+"-"+day;
+        return todayStr;
+    }
+</script>
+</body>
+</html>

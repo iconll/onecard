@@ -58,6 +58,19 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
         // 跳转到支行管理页面
         registry.addViewController("/bankInfoList").setViewName("sys/bankInfo/bankInfoList");
 
+        // 跳转到管理分类
+        registry.addViewController("/goodstype").setViewName("supermarket/goodstype/GoodsType");
+        // 跳转到商品信息
+        registry.addViewController("/goods").setViewName("supermarket/goods/Goods");
+        // 跳转到入库管理
+        registry.addViewController("/storageManagement").setViewName("supermarket/storageManagement/StorageManagement");
+        // 跳转到退货管理
+        registry.addViewController("/returnManagement").setViewName("supermarket/returnManagement/ReturnManagement");
+        // 跳转到供应商管理
+        registry.addViewController("/supplierManagement").setViewName("supermarket/supplierManagement/SupplierManagement");
+        // 跳转到盘盈盘亏
+        registry.addViewController("/profitAndLoss").setViewName("supermarket/profitAndLoss/ProfitAndLoss");
+
         //分期通
         //跳转到分期通基础数据管理页面
         registry.addViewController("/fqtBaseInfoList").setViewName("sys/fqtBaseInfo/fqtBaseInfoList");
@@ -66,12 +79,5 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
         //跳转到分期通基础数据统计页面
         registry.addViewController("/fqtStatisticsList").setViewName("sys/fqtBaseInfo/fqtStatisticsList");
 
-        //家装分期
-        //跳转到家装分期基础数据管理页面
-        registry.addViewController("/jzBaseInfoList").setViewName("sys/jzBaseInfo/jzBaseInfoList");
-        //跳转到家装分期额度有效期预警页面
-        registry.addViewController("/jzEdsxyjList").setViewName("sys/jzBaseInfo/jzEdsxyjList");
-        //跳转到家装分期基础数据统计页面
-        registry.addViewController("/jzStatisticsList").setViewName("sys/jzBaseInfo/jzStatisticsList");
     }
 }

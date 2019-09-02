@@ -1,0 +1,85 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<body>
+<form id="goodsTypeForm"  role="form" method="post" action="apis/goodsType/save">
+    <div class="form-group" >
+        <label for="name">上级类型:</label>
+        <select class="form-control" id="pid" name="pid">
+            <option value="-1" data-name="">顶级</option>
+            <option th:each="type:${goodsTypeList}" th:value="${type.id}" th:text="${type.name}" th:selected="${type.id==entity.goodsType.id}"></option>
+        </select>
+    </div>
+    <div class="form-group" >
+        <label for="name">名称:</label>
+        <input type="text" class="form-control" name="name" id="name"  placeholder="请输入类型名称" th:value="${entity.name}" />
+    </div>
+    <div class="form-group" >
+        <label for="code">编码:</label>
+        <input type="text" class="form-control" name="code" id="code"  placeholder="请输入类型编码" th:value="${entity.code}"/>
+        <input type="hidden" name="id" th:value="${entity.id}">
+    </div>
+</form>
+<script th:inline="javascript">
+    <![CDATA[
+    $(function () {
+        $('#goodsTypeForm').bootstrapValidator({
+            message: 'This value is not valid',
+            feedbackIcons: {
+                valid: 'glyphicon glyphicon-ok',
+                invalid: 'glyphicon glyphicon-remove',
+                validating: 'glyphicon glyphicon-refresh'
+            },
+            fields: {
+                pid: {
+                    message: '上级类型验证失败',
+                    validators: {
+                        notEmpty: {
+                            message: '上级类型不能为空'
+                        }
+                    }
+                },
+                name: {
+                    message: '类型名称验证失败',
+                    validators: {
+                        notEmpty: {
+                            message: '类型名称不能为空'
+                        }
+                    }
+                },
+                code: {
+                    message: '类型编码验证失败',
+                    validators: {
+                        notEmpty: {
+                            message: '类型编码不能为空'
+                        }
+                    }
+                }
+            }
+        })
+
+        // 绑定dialog的确定按钮的监听事件
+        $("#btnOk",window.top.document).click(function() {
+            var bootstrapValidator = $("#goodsTypeForm", window.top.document).data('bootstrapValidator');
+            bootstrapValidator.validate();
+            if(bootstrapValidator.isValid()){
+                $.post($("#goodsTypeForm",window.top.document).attr('action'),$("#goodsTypeForm",window.top.document).serialize(),function(e){
+                    console.info(e)
+                    if(e.success){
+                        $('.modal-dialog', window.top.document).parent('div').remove()
+                        $('body', window.top.document).find('.modal-backdrop').remove();
+                        // jquery 调用刷新当前操作的table页面的refresh方法
+                        $(window.parent.document).contents().find(".tab-pane.fade.active.in iframe")[0].contentWindow.doQuery();
+                        window.Ewin.alert("保存成功！");
+                    }else{
+                        window.Ewin.alert("保存失败："+e.message);
+                    }
+                })
+            }else{
+                return false;
+            }
+        });
+    })
+    ]]>
+</script>
+</body>
+</html>

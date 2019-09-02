@@ -6,7 +6,7 @@
 <script th:inline="javascript">
     $(function () {
         // 初始化nav
-        $.fn.bootstrapNav({index:'main',navTitle:'支用查询系统'});
+        $.fn.bootstrapNav({index:'main',navTitle:'宁夏建投餐厅超市【一卡通管理系统】'});
         // 初始化标签页
         $("#tabContainer").tabs({
             data: [{
@@ -51,7 +51,7 @@
         <ul class="nav navbar-right top-nav">
             <li class="topLi">
                 <i class="fa fa-user-circle" style="font-size:20px;"></i>
-                欢迎<font th:text="${#authentication.name}"></font>，您上次登录时间为：<font th:text="${session.lastLoginTime}"></font></li>
+                欢迎<font th:text="${session.name}"></font>，您上次登录时间为：<font th:text="${session.lastLoginTime}"></font></li>
             <li class="topLi">
                     <span class="updatePwd" style="margin-right:20px;">
                         <a href="#" onclick="toUpdatePwd();">

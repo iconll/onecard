@@ -5,6 +5,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 /**
  * spring-security登陆的密码进行MD5加密传到数据库
+ * TODO @娄雷，现在一般不推荐用MD5，官方推荐的是BCryptPasswordEncoder，你看下面方法标记过时其实是因为官方认为其并不安全
  */
 public class CustomPasswordEncoder implements PasswordEncoder {
     /**

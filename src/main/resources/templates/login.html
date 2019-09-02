@@ -35,16 +35,17 @@
 				<a href="/login">登录</a>
 			</div>
 			<form id="loginForm" name="form" action="@{/login}" action="/login" method="POST">
+				<!-- TODO @娄雷 这里先默认管理员的用户，方便登录调试，上线的时候清除值 -->
 				<div class="login-center clearfix">
 					<div class="login-center-img"><img src="../img/login/name.png"/></div>
 					<div class="login-center-input">
-						<input type="text" placeholder="请输入您的账号" name="username" id="username" autofocus="autofocus" maxlength="20"/>
+						<input type="text" value="admin1" placeholder="请输入您的账号" name="username" id="username" autofocus="autofocus" maxlength="20"/>
 					</div>
 				</div>
 				<div class="login-center clearfix">
 					<div class="login-center-img"><img src="../img/login/password.png"/></div>
 					<div class="login-center-input">
-						<input type="password" placeholder="请输入您的密码" name="password" id="password" maxlength="18"/>
+						<input type="password" value="123456" placeholder="请输入您的密码" name="password" id="password" maxlength="18"/>
 					</div>
 				</div>
 				<span style="color:red;margin-left: 60px;" th:if="${param.error}" th:text="${session.SPRING_SECURITY_LAST_EXCEPTION.message}=='Bad credentials'?'账号或密码错误！':${session.SPRING_SECURITY_LAST_EXCEPTION.message}"></span>
@@ -98,13 +99,13 @@
 	  if (cls.replace(/\s/g, '').length == 0) return false; //当cls没有参数时，返回false
 	  return new RegExp(' ' + cls + ' ').test(' ' + elem.className + ' ');
 	}
-	 
+
 	function addClass(ele, cls) {
 	  if (!hasClass(ele, cls)) {
 	    ele.className = ele.className == '' ? cls : ele.className + ' ' + cls;
 	  }
 	}
-	 
+
 	function removeClass(ele, cls) {
 	  if (hasClass(ele, cls)) {
 	    var newClass = ' ' + ele.className.replace(/[\t\r\n]/g, '') + ' ';
